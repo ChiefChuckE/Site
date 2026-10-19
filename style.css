@@ -95,6 +95,11 @@ footer p{max-width:none}
   .hero-grid,.two,.three,.shorts{grid-template-columns:1fr}
   .hero{padding-top:28px}
   .nav ul{display:none}
-  .nav .sub{display:inline-block}
+  .nav{padding:10px 0}
+  .brand{font-size:1.25rem;white-space:nowrap}
+  .nav .sub{display:inline-block;font-size:.95rem;padding:7px 11px;white-space:nowrap}
+  .lede{font-size:1.1rem}
+  .cta{font-size:1.15rem;padding:12px 18px;display:inline-flex}
   section{padding:52px 0}
+  .phone{margin-top:8px}
 }
