@@ -1,0 +1,5 @@
+.git
+README.md
+package.json
+wrangler.toml
+node_modules
