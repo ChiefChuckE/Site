@@ -47,7 +47,7 @@ header{position:sticky;top:0;z-index:5;background:rgba(23,18,15,.92);backdrop-fi
 .cta.alt{background:transparent;border:2px solid var(--brass);color:var(--brass)}
 .cta.alt:hover{background:rgba(210,167,75,.12)}
 .phone{width:min(100%,320px);margin:0 auto;border-radius:22px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.6),0 0 0 6px #0c0907}
-.phone video{aspect-ratio:9/16;width:100%;background:#000;object-fit:cover}
+.phone video,.phone iframe{aspect-ratio:9/16;width:100%;background:#000;object-fit:cover;border:0;display:block}
 
 /* sections */
 section{padding:72px 0;border-top:1px solid #2a2119}
