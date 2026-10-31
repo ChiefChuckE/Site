@@ -46,7 +46,7 @@ Every script file lists the cartoon scenes for each call. I can generate the car
 **61 CALLS.** Every responder has a call that stays with them. Every video is one call.
 
 - Each video's title starts with its number: **CALL 07 · Avoidance looks like "fine"**
-- Hashtag on everything: **#61Calls**, plus #FirstResponders #PTSD #DifferentFireSameFight
+- Hashtag on everything: **#61Days** and **#61Calls**, plus #FirstResponders #PTSD #DifferentFireSameFight
 - Why it works: the number turns 61 separate videos into a series. People who find Call 23 go back for Call 1. People who start on Call 1 want to see 61. A countdown pulls people forward on its own.
 
 It fits under your brand without any changes. *Different fire. Same fight.* is the sign-off on every video.
