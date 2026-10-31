@@ -105,7 +105,7 @@ Full lineup: [SCRIPTS.md](SCRIPTS.md). **All 61 scripts are written** and ready 
 
 ### This weekend (Call 1 posts tomorrow, Nov 1)
 1. **Record Calls 1–3 today or tomorrow morning.** If it's rough, post it anyway. Call 1 going out on time matters more than a perfect Call 1.
-2. **Fill in the `[YOUR STORY]` spots** before each session. There are about a dozen, each a sentence or two in your own words. Search the phase files for `YOUR STORY`.
+2. **Fill in the `[YOUR STORY]` spots** before each session. There are 8 (Calls 6, 14, 20, 30, 38, 54, 59, 60), each a sentence or two in your own words. Search the phase files for `YOUR STORY`.
 
 ### Recording setup (one time, about 20 minutes)
 - **Phone** on a tripod or a stack of books, at eye level, **vertical**, back camera (it's better than the front one).
