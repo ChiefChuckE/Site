@@ -19,6 +19,7 @@ Nov 1 – Dec 31, 2026. One video every day, same time.
 | Review | No outside reviewer. You're the subject matter expert. The safe-messaging rules are built into the scripts, so stay on script in Phase 3. |
 
 ## Files
+- **[READ-ALOUD.md](READ-ALOUD.md) and `61-CALLS-read-aloud.pdf`: the clean scripts to read, words only, one call per page**
 - [SCRIPTS.md](SCRIPTS.md): the full lineup of all 61, with dates and hooks
 - [phase-1-what-it-is.md](phase-1-what-it-is.md) · [phase-2-what-it-looks-like.md](phase-2-what-it-looks-like.md) · [phase-3-what-it-costs.md](phase-3-what-it-costs.md) · [phase-4-what-works.md](phase-4-what-works.md) · [phase-5-the-promise.md](phase-5-the-promise.md): every script, with its pinned comment and cartoon scenes
 
