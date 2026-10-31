@@ -2,10 +2,41 @@
 
 **One responder. One call a day. 61 days. No sugar coating.**
 
-PTSD education for first responders, narrated by Chief Chuck E Carroll.
+PTSD education for first responders and veterans, narrated by Chief Chuck E Carroll.
 Nov 1 – Dec 31, 2026. One video every day, same time.
 
 > This folder is kept off the public website (listed in `.assetsignore`).
+
+## Decisions (locked in Oct 31)
+
+| | |
+|---|---|
+| Your story | Yes. Job-related PTSD plus a brain injury. **The nightmares are the worst part.** That thread runs through Calls 1, 6, 49, and 59. |
+| Audience | All first responders **and veterans** |
+| Channel | Chief Chuck E. It ties into the brain injury work (Call 25 is the bridge). |
+| Versions | **Both.** One recording gives you two cuts: a camera cut and a cartoon cut (see below). |
+| Platforms | All of them, scheduled through your paid Metricool: YouTube, Facebook, Instagram, TikTok, Threads, LinkedIn, Pinterest |
+| Review | No outside reviewer. You're the subject matter expert. The safe-messaging rules are built into the scripts, so stay on script in Phase 3. |
+
+## Files
+- [SCRIPTS.md](SCRIPTS.md): the full lineup of all 61, with dates and hooks
+- [phase-1-what-it-is.md](phase-1-what-it-is.md) · [phase-2-what-it-looks-like.md](phase-2-what-it-looks-like.md) · [phase-3-what-it-costs.md](phase-3-what-it-costs.md) · [phase-4-what-works.md](phase-4-what-works.md) · [phase-5-the-promise.md](phase-5-the-promise.md): every script, with its pinned comment and cartoon scenes
+
+## How you describe yourself (bio, intros, press)
+
+> **Retired CAL FIRE Deputy Chief. Living with a brain injury and job-related PTSD. Saying what nobody says out loud.**
+
+**Don't say "the only."** I searched, and there's at least one other: **Matthew Shobert**, a fire chief who was medically retired in 2014 after an on-duty head injury left him with PTSD and two TBIs. He speaks at EMS World Expo. Someone will find him in your comments, and a "the only" claim that's proven wrong costs you trust you can't buy back. Your real edge doesn't need it. Nobody else is doing a CAL FIRE deputy chief, a brain injury from COVID, PTSD from the job, poetry, and a daily series. **Better move: invite him to stitch or duet a call, or come on as a guest.** Two chiefs saying the same thing is more powerful than one claiming to be alone.
+
+## Two cuts from one recording
+
+| | Camera cut | Cartoon cut |
+|---|---|---|
+| What | Your face, the "Debrief" style | Your same audio over cartoon scenes, like your poem videos |
+| Where | **The daily 6 PM post** on every platform | **Sunday YouTube compilation** ("61 CALLS · Week 1: Calls 1–7"), about 6–7 minutes, also posted to Facebook. Long videos get found in YouTube search for months. |
+| Bonus | — | **Your bad-brain-day backup.** If you can't be on camera, record the audio only and post the cartoon cut that day. The series never misses a day. |
+
+Every script file lists the cartoon scenes for each call. I can generate the cartoon frames for you if you want (it uses your Canva or ElevenLabs credits).
 
 ---
 
@@ -42,8 +73,8 @@ It should feel like a chief pulling you aside after a bad call. One man and one 
 | Captions | Big white words, one to three at a time, centered low. Key words in **fire red**. Most people watch with the sound off. |
 | Title card | Top of the frame for the whole video: **CALL 07** in red stencil type. |
 | Sound | Your voice only. One radio squelch click at the very start as a series signature. **No real dispatch tones or real radio traffic.** Real tones can trigger responders, and recordings of real traffic bring legal and copyright problems. No music under your voice. Silence hits harder. |
-| Outro (5 sec, the same every day) | "This is Call __ of 61. Send it to one responder. Different fire. Same fight." |
-| End card (on screen, last 3 sec, every video) | **Struggling? Call or text 988.** · **Responders: Safe Call Now 206-459-3020** |
+| Outro (5 sec, the same every day) | "This is Call __ of 61. Send it to someone who wore the uniform. Different fire. Same fight." |
+| End card (on screen, last 3 sec, every video) | **Struggling? Call or text 988** · **Veterans: 988, press 1** · **Responders: Safe Call Now 206-459-3020** |
 | Cover / thumbnail | Black frame. **CALL 07** in red. The hook in big white type. Your face if it fits. |
 
 **Why this style:** it costs nothing, you can repeat it 61 times without getting bored of it, and it's instantly recognizable in a feed. Polished, produced videos read as an ad. Raw, close-up, and direct reads as real, and real is what gets shared.
@@ -58,13 +89,13 @@ It should feel like a chief pulling you aside after a bad call. One man and one 
 | 4. **What Works** | 43–54 | Dec 13–24 | Treatment, peer support, your rights, tools |
 | 5. **The Promise** | 55–61 | Dec 25–31 | What to do now, for yourself, your crew, and your family |
 
-Full lineup and scripts: [SCRIPTS.md](SCRIPTS.md). Calls 1–14 are fully written and ready to record. Calls 15–61 have titles and hooks, and I'll write those scripts after you answer the questions below.
+Full lineup: [SCRIPTS.md](SCRIPTS.md). **All 61 scripts are written** and ready to record, in the five phase files.
 
 ## What makes these spread (built into every script)
 
 1. **A hook in the first sentence** that a responder can't scroll past: "The most dangerous symptom of PTSD looks like you're fine."
 2. **One idea per video.** If it needs two ideas, it becomes two videos.
-3. **A direct share ask:** "Send it to one responder." Shares and sends count more than likes on Instagram and TikTok. People share these to *check on someone* without having to say the hard thing themselves. That's the engine of the whole campaign.
+3. **A direct share ask:** "Send it to someone who wore the uniform." Shares and sends count more than likes on Instagram and TikTok. People share these to *check on someone* without having to say the hard thing themselves. That's the engine of the whole campaign.
 4. **A comment question pinned under every post** (I'll write them), plus a pinned comment with 988 and Safe Call Now.
 5. **The series number.** People binge and follow to see the rest.
 
@@ -74,7 +105,7 @@ Full lineup and scripts: [SCRIPTS.md](SCRIPTS.md). Calls 1–14 are fully writte
 
 ### This weekend (Call 1 posts tomorrow, Nov 1)
 1. **Record Calls 1–3 today or tomorrow morning.** If it's rough, post it anyway. Call 1 going out on time matters more than a perfect Call 1.
-2. **Answer the questions at the bottom of this page.** Your answers decide how I write Calls 15–61.
+2. **Fill in the `[YOUR STORY]` spots** before each session. There are about a dozen, each a sentence or two in your own words. Search the phase files for `YOUR STORY`.
 
 ### Recording setup (one time, about 20 minutes)
 - **Phone** on a tripod or a stack of books, at eye level, **vertical**, back camera (it's better than the front one).
@@ -93,10 +124,10 @@ Full lineup and scripts: [SCRIPTS.md](SCRIPTS.md). Calls 1–14 are fully writte
 Break each session into blocks of 4–5 videos with a rest between them. Your voice and brain will get tired. Stop when they do, and finish the session the next day. **Stumbles stay in.** It's the same promise your site already makes.
 
 ### Editing (free)
-Drop each take into **Descript** or **CapCut** (free), cut the dead air at the start and end, turn on auto-captions, and add the CALL number and end card from the template. I can set up the caption style and the template in Descript for you, since it's already connected.
+Drop each take into **Descript** or **CapCut** (free), cut the dead air at the start and end, turn on auto-captions, and add the CALL number and end card from the template. I can set up the caption style and the template in Descript for you, since it's already connected. Export the audio too, for the cartoon cut.
 
 ### Posting
-Send me the finished files or a shared folder. **I'll schedule all of them in Metricool** for 6:00 PM Pacific with titles, descriptions, hashtags, and pinned comments, as drafts for your approval before anything goes live.
+Send me the finished files or a shared folder. **I'll schedule all of them in Metricool** (brand: myunnormallifestory, already on Pacific time) for 6:00 PM, to YouTube, Facebook, Instagram, TikTok, Threads, LinkedIn, and Pinterest. They go in with titles, descriptions, hashtags, and pinned comments, **as drafts for your approval** before anything goes live. LinkedIn matters here: that's where chiefs, HR people, and peer-support leads are, the people who can put this in front of whole departments.
 
 ### Every day (10 minutes)
 - **Reply to comments in the first hour after it posts.** That's the biggest free boost there is.
@@ -104,7 +135,8 @@ Send me the finished files or a shared folder. **I'll schedule all of them in Me
 
 ### Free outreach (instead of ads)
 - Share every call into the **Different Fire, Same Fight** Facebook group.
-- Send Call 1 to peer support teams, union locals (IAFF, FOP), chaplains, and the behavioral health people you know from CAL FIRE. Ask them to share it, not to like it.
+- Send Call 1 to peer support teams, union locals (IAFF, FOP), chaplains, the behavioral health people you know from CAL FIRE, and **veteran groups (VFW, American Legion, and local Vet Centers)**. Ask them to share it, not to like it.
+- Reach out to **Matthew Shobert** about a stitch, duet, or guest spot.
 - I can draft podcast pitches about the campaign with your podcast-pitch workflow. A retired deputy chief talking straight about PTSD is an easy booking.
 
 ## Money: only what's worth it
@@ -125,7 +157,7 @@ The videos tell the truth with no sugar coating. They also follow safe-messaging
 - Every video that touches suicide ends with hope and the numbers. Say the word plainly. Don't make it look inevitable.
 - No real patients, real calls that someone could identify, real names, or real radio audio.
 - General education only, never medical or legal advice. Point people to a clinician, their union, or their department.
-- **Have one clinician or peer-support lead read the Phase 3 scripts (Calls 29–42) before you record them.** It's free, it's smart, and it gives you a partner who'll share the videos.
+- **Stay on script in Phase 3 (Calls 29–42).** That's where an ad-lib can turn into a method detail or a "no way out" message without you meaning it to.
 
 ### Numbers used in the scripts (check these before recording)
 - **988 Suicide & Crisis Lifeline:** call or text 988. Veterans: 988, then press 1.
@@ -138,13 +170,3 @@ The videos tell the truth with no sugar coating. They also follow safe-messaging
 - California presumes PTSD is job-related for firefighters and peace officers in workers' comp (SB 542, 2019). Laws differ by state.
 
 ---
-
-## Questions for you
-
-1. **Is PTSD part of your own story**, or cumulative stress from the job? Can I write your real experiences into the scripts? This is the biggest choice in the campaign. A chief saying "this happened to me" outperforms any statistic.
-2. **Who's the audience:** firefighters only, or all responders (police, EMS, dispatch, corrections, ER staff)? I wrote it for all of them, leaning toward fire.
-3. **Which channel?** I recommend your existing Chief Chuck E channel, because you'd keep your subscribers and the brand fits. A new channel would start from zero.
-4. **On camera or voice only?** I wrote this for your face on camera, which works best. If you'd rather do voice-over with cartoon scenes or b-roll like your poem videos, I'll change the style.
-5. **How many videos can you record in one sitting** before your speech gets tired? I'll size the sessions to fit.
-6. **Platforms:** YouTube, Facebook, Instagram, TikTok, Threads, or all of them? And can I schedule through your Metricool?
-7. **Do you know a clinician or peer-support lead** who could review the hard episodes?
