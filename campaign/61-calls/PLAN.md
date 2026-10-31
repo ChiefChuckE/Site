@@ -1,0 +1,150 @@
+# 61 CALLS — Campaign Plan
+
+**One responder. One call a day. 61 days. No sugar coating.**
+
+PTSD education for first responders, narrated by Chief Chuck E Carroll.
+Nov 1 – Dec 31, 2026. One video every day, same time.
+
+> This folder is kept off the public website (listed in `.assetsignore`).
+
+---
+
+## The name
+
+**61 CALLS.** Every responder has a call that stays with them. Every video is one call.
+
+- Each video's title starts with its number: **CALL 07 · Avoidance looks like "fine"**
+- Hashtag on everything: **#61Calls**, plus #FirstResponders #PTSD #DifferentFireSameFight
+- Why it works: the number turns 61 separate videos into a series. People who find Call 23 go back for Call 1. People who start on Call 1 want to see 61. A countdown pulls people forward on its own.
+
+It fits under your brand without any changes. *Different fire. Same fight.* is the sign-off on every video.
+
+## Length
+
+- **Every video is 45 to 60 seconds.** Never longer than 60.
+- Scripts run 90 to 120 words. That leaves you room to talk at your own pace with pauses. **Don't rush, and don't cut the pauses.** You're a chief who stops to choose his words, and that's part of why people will believe you.
+- One format, posted to every platform: vertical 9:16 for YouTube Shorts, Instagram Reels, TikTok, and Facebook Reels.
+
+## Posting time
+
+**6:00 PM Pacific, every day** (9:00 PM Eastern).
+That's after day shift on the West Coast and prime scrolling time back East. Set it once and don't move it. If you let me, I'll load every post into Metricool so it goes out on its own.
+
+## The style: "The Debrief"
+
+It should feel like a chief pulling you aside after a bad call. One man and one camera, nothing else.
+
+| Element | Rule |
+|---|---|
+| Frame | You, chest up, looking straight into the lens. Dark background. One light from the side so half your face is in shadow. |
+| Wardrobe | The same thing every day: a dark CAL FIRE or station t-shirt or a plain dark work shirt. Never a costume. |
+| First 2 seconds | No logo and no intro. Open on the hook line, spoken and on screen at once. The hook decides whether the video gets watched. |
+| Captions | Big white words, one to three at a time, centered low. Key words in **fire red**. Most people watch with the sound off. |
+| Title card | Top of the frame for the whole video: **CALL 07** in red stencil type. |
+| Sound | Your voice only. One radio squelch click at the very start as a series signature. **No real dispatch tones or real radio traffic.** Real tones can trigger responders, and recordings of real traffic bring legal and copyright problems. No music under your voice. Silence hits harder. |
+| Outro (5 sec, the same every day) | "This is Call __ of 61. Send it to one responder. Different fire. Same fight." |
+| End card (on screen, last 3 sec, every video) | **Struggling? Call or text 988.** · **Responders: Safe Call Now 206-459-3020** |
+| Cover / thumbnail | Black frame. **CALL 07** in red. The hook in big white type. Your face if it fits. |
+
+**Why this style:** it costs nothing, you can repeat it 61 times without getting bored of it, and it's instantly recognizable in a feed. Polished, produced videos read as an ad. Raw, close-up, and direct reads as real, and real is what gets shared.
+
+## The arc: basics → the fight
+
+| Phase | Calls | Dates | What it covers |
+|---|---|---|---|
+| 1. **What It Is** | 1–14 | Nov 1–14 | What PTSD is and isn't, and the four signs |
+| 2. **What It Looks Like** | 15–28 | Nov 15–28 | How it shows up at home, in the body, on shift |
+| 3. **What It Costs** | 29–42 | Nov 29–Dec 12 | Suicide, the culture, why we don't talk, what leaders get wrong |
+| 4. **What Works** | 43–54 | Dec 13–24 | Treatment, peer support, your rights, tools |
+| 5. **The Promise** | 55–61 | Dec 25–31 | What to do now, for yourself, your crew, and your family |
+
+Full lineup and scripts: [SCRIPTS.md](SCRIPTS.md). Calls 1–14 are fully written and ready to record. Calls 15–61 have titles and hooks, and I'll write those scripts after you answer the questions below.
+
+## What makes these spread (built into every script)
+
+1. **A hook in the first sentence** that a responder can't scroll past: "The most dangerous symptom of PTSD looks like you're fine."
+2. **One idea per video.** If it needs two ideas, it becomes two videos.
+3. **A direct share ask:** "Send it to one responder." Shares and sends count more than likes on Instagram and TikTok. People share these to *check on someone* without having to say the hard thing themselves. That's the engine of the whole campaign.
+4. **A comment question pinned under every post** (I'll write them), plus a pinned comment with 988 and Safe Call Now.
+5. **The series number.** People binge and follow to see the rest.
+
+---
+
+## What YOU need to do
+
+### This weekend (Call 1 posts tomorrow, Nov 1)
+1. **Record Calls 1–3 today or tomorrow morning.** If it's rough, post it anyway. Call 1 going out on time matters more than a perfect Call 1.
+2. **Answer the questions at the bottom of this page.** Your answers decide how I write Calls 15–61.
+
+### Recording setup (one time, about 20 minutes)
+- **Phone** on a tripod or a stack of books, at eye level, **vertical**, back camera (it's better than the front one).
+- **Light:** sit sideways to a window during the day, with the window on one side of your face and a dark wall behind you. If you record at night, use one lamp off to the side.
+- **Teleprompter:** use a free teleprompter app on the phone, or read from a laptop placed right behind the phone. Paste the script in, set it slow, and look at the lens.
+- Record in the studio if it's dark enough. If the recliner is visible, that's fine. It's you.
+
+### Batch recording (4 sessions instead of 61)
+| Session | Record | By |
+|---|---|---|
+| 1 | Calls 1–14 | Nov 3 (at least 1–3 right away) |
+| 2 | Calls 15–28 | Nov 12 |
+| 3 | Calls 29–42 | Nov 25 |
+| 4 | Calls 43–61 | Dec 8 |
+
+Break each session into blocks of 4–5 videos with a rest between them. Your voice and brain will get tired. Stop when they do, and finish the session the next day. **Stumbles stay in.** It's the same promise your site already makes.
+
+### Editing (free)
+Drop each take into **Descript** or **CapCut** (free), cut the dead air at the start and end, turn on auto-captions, and add the CALL number and end card from the template. I can set up the caption style and the template in Descript for you, since it's already connected.
+
+### Posting
+Send me the finished files or a shared folder. **I'll schedule all of them in Metricool** for 6:00 PM Pacific with titles, descriptions, hashtags, and pinned comments, as drafts for your approval before anything goes live.
+
+### Every day (10 minutes)
+- **Reply to comments in the first hour after it posts.** That's the biggest free boost there is.
+- If someone comments that they're in crisis, reply with 988 and Safe Call Now and tell them you're glad they spoke up. Don't try to be their counselor in the comments.
+
+### Free outreach (instead of ads)
+- Share every call into the **Different Fire, Same Fight** Facebook group.
+- Send Call 1 to peer support teams, union locals (IAFF, FOP), chaplains, and the behavioral health people you know from CAL FIRE. Ask them to share it, not to like it.
+- I can draft podcast pitches about the campaign with your podcast-pitch workflow. A retired deputy chief talking straight about PTSD is an easy booking.
+
+## Money: only what's worth it
+
+| Item | Cost | Worth it? |
+|---|---|---|
+| Clip-on lav mic for your phone (wired or a cheap wireless kit) | about $20–35 | **Yes. The only thing I'd buy.** People forgive bad video but scroll past bad audio. |
+| Small LED panel light | about $25–40 | Only if you have to record at night. Otherwise a window works. |
+| Everything else (editing, captions, teleprompter, scheduling) | $0 | Free tools or ones you already have. |
+| Ads, boosts, "promote" buttons | — | **No.** |
+
+## Guardrails (hard-hitting, but safe)
+
+The videos tell the truth with no sugar coating. They also follow safe-messaging rules so they don't hurt someone who's already on the edge, and so the platforms don't bury them:
+
+- **Never describe a suicide method or a specific death in detail.** Talk about the *why* and the *what to do*, never the *how*.
+- Say "died by suicide," not "committed suicide."
+- Every video that touches suicide ends with hope and the numbers. Say the word plainly. Don't make it look inevitable.
+- No real patients, real calls that someone could identify, real names, or real radio audio.
+- General education only, never medical or legal advice. Point people to a clinician, their union, or their department.
+- **Have one clinician or peer-support lead read the Phase 3 scripts (Calls 29–42) before you record them.** It's free, it's smart, and it gives you a partner who'll share the videos.
+
+### Numbers used in the scripts (check these before recording)
+- **988 Suicide & Crisis Lifeline:** call or text 988. Veterans: 988, then press 1.
+- **Safe Call Now** (24/7, confidential, for public safety): 206-459-3020.
+- **CopLine** (law enforcement): 1-800-267-5463.
+- First responders were found to be **more likely to die by suicide than in the line of duty** (Ruderman Family Foundation white paper, 2018).
+- **About 30%** of first responders develop behavioral health conditions such as depression and PTSD, compared with about 20% of the general public (SAMHSA, 2018).
+- **About 6 in 100** people will have PTSD at some point in their life (VA National Center for PTSD).
+- The official PTSD criteria (DSM-5) **name first responders** directly, under repeated exposure to the details of trauma.
+- California presumes PTSD is job-related for firefighters and peace officers in workers' comp (SB 542, 2019). Laws differ by state.
+
+---
+
+## Questions for you
+
+1. **Is PTSD part of your own story**, or cumulative stress from the job? Can I write your real experiences into the scripts? This is the biggest choice in the campaign. A chief saying "this happened to me" outperforms any statistic.
+2. **Who's the audience:** firefighters only, or all responders (police, EMS, dispatch, corrections, ER staff)? I wrote it for all of them, leaning toward fire.
+3. **Which channel?** I recommend your existing Chief Chuck E channel, because you'd keep your subscribers and the brand fits. A new channel would start from zero.
+4. **On camera or voice only?** I wrote this for your face on camera, which works best. If you'd rather do voice-over with cartoon scenes or b-roll like your poem videos, I'll change the style.
+5. **How many videos can you record in one sitting** before your speech gets tired? I'll size the sessions to fit.
+6. **Platforms:** YouTube, Facebook, Instagram, TikTok, Threads, or all of them? And can I schedule through your Metricool?
+7. **Do you know a clinician or peer-support lead** who could review the hard episodes?
