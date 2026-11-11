@@ -39,8 +39,13 @@
 .pp-card li{margin-bottom:6px}
 .pp-card p{margin-bottom:10px}
 .pp-connect form{max-width:720px}
+.pp-team-grid{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:32px;align-items:start;margin-top:20px}
+.pp-team-grid figure{margin:0}
+.pp-team-grid figcaption{font-family:var(--display);text-transform:uppercase;font-size:1.3rem;margin-top:8px;color:var(--brass)}
+.pp-list{padding-left:1.2em;margin:0 0 18px}
+.pp-list li{margin-bottom:6px}
 @media (max-width:860px){.pp-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:640px){.pp-ads,.pp-two,.pp-cards,.pp-steps{grid-template-columns:minmax(0,1fr)}.pp-ads{max-width:340px}}
+@media (max-width:640px){.pp-ads,.pp-two,.pp-cards,.pp-steps,.pp-team-grid{grid-template-columns:minmax(0,1fr)}.pp-team-grid figure{max-width:340px}.pp-ads{max-width:340px}}
 </style>
 </head>
 <body>
@@ -55,6 +60,7 @@
     <a class="cta" href="#sponsor">Sponsor the campaign</a>
     <a class="cta alt" href="#volunteer">Volunteer</a>
     <a class="cta alt" href="#ads">Watch the ads</a>
+    <a class="cta alt" href="#teams">For teams</a>
   </div>
 </section>
 
@@ -75,6 +81,28 @@
       <figure><div class="pp-frame"><iframe src="https://www.youtube-nocookie.com/embed/MQuew4BYXTs" title="15-second sponsor sample" loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div><figcaption>15 seconds</figcaption></figure>
       <figure><div class="pp-frame"><iframe src="https://www.youtube-nocookie.com/embed/gzl1q8PDxXQ" title="30-second sponsor sample" loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div><figcaption>30 seconds</figcaption></figure>
       <figure><div class="pp-frame"><iframe src="https://www.youtube-nocookie.com/embed/FCXmnKKWogU" title="45-second sponsor sample" loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div><figcaption>45 seconds</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="teams" class="pp-teams">
+  <div class="wrap">
+    <p class="kicker">Teams and venues</p>
+    <h2>Your team could be next.</h2>
+    <div class="pp-team-grid">
+      <figure><div class="pp-frame"><iframe src="https://www.youtube-nocookie.com/embed/98ul4mJCn1w" title="Sample team ad" loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div><figcaption>Sample team ad</figcaption></figure>
+      <div>
+        <p>At a lot of games, the big screen has a video for everything. The "don't drink and drive" message is often just a voice over the speakers. Nobody looks up for that.</p>
+        <p>Give fans a face instead. Michael is a lifelong Tennessee Volunteers fan, so we cut this sample to show what a team's ad could look like.</p>
+        <ul class="pp-list">
+          <li>Your players, coaches or fans say the campaign lines</li>
+          <li>Vertical for social, with a wide cut for the video board on request</li>
+          <li>Your team or foundation named on the end card</li>
+          <li>Made to run late in the game, when fans decide how they are getting home</li>
+        </ul>
+        <a class="cta" href="#connect" data-pick="Sponsor">Put your team in the next one</a>
+        <p class="fine">This is a sample. The University of Tennessee has not sponsored or endorsed this campaign.</p>
+      </div>
     </div>
   </div>
 </section>
