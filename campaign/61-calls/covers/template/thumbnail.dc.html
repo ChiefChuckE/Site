@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MAYDAY YouTube thumbnail</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter:wght@800;900&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#FF6A00}a:hover{color:#FFFFFF}
+</style>
+</helmet>
+<div style="position: relative; width: 1280px; height: 720px; overflow: hidden; background: #000000; font-family: Anton, Impact, sans-serif; color: #FFFFFF">
+<img src="/_blob/e0a3b37637dd29a7e07c58f9046fa054" alt="Man awake in bed under an exploding smoke detector, and Chief Chuck with a brain on fire above his head" style="position: absolute; left: 0; top: 0; width: 1280px; height: 720px; object-fit: cover">
+
+<div style="position: absolute; left: 34px; top: 14px; width: 660px; display: flex; flex-direction: column; align-items: flex-start; gap: 4px">
+<div style="font-size: 150px; line-height: 0.95; color: #FF6A1A; text-transform: uppercase; white-space: nowrap; letter-spacing: 1px; -webkit-text-stroke: 12px #000000; paint-order: stroke fill; text-shadow: 0 8px 0 #000000, 0 0 30px rgba(255,90,0,0.55)">{{line1}}</div>
+<div style="font-size: 172px; line-height: 0.95; color: #FFFFFF; text-transform: uppercase; white-space: nowrap; -webkit-text-stroke: 12px #000000; paint-order: stroke fill; text-shadow: 0 8px 0 #000000, 0 0 24px rgba(0,0,0,0.8)">{{line2}}</div>
+<div style="margin-top: 10px; background: #C8102E; padding: 6px 26px 10px; border: 5px solid #FFFFFF; box-shadow: 0 6px 0 #000000, 0 0 24px rgba(0,0,0,0.7)">
+<span style="font-size: 82px; line-height: 1; color: #FFFFFF; white-space: nowrap">MAYDAY DAY {{day}}</span>
+</div>
+</div>
+
+<img src="/_blob/386752d85e8665f7058e7ad43a62dde2" alt="UnNormal brain logo" style="position: absolute; left: 575px; top: 570px; width: 129px; height: 142px">
+
+<div style="position: absolute; left: 22px; bottom: 16px; font-family: Inter, sans-serif; font-weight: 900; font-size: 34px; color: #FFFFFF; -webkit-text-stroke: 6px #000000; paint-order: stroke fill">#CallYourMayday</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"day":{"editor":"int","default":12,"min":1,"max":61,"section":"This day"},"line1":{"editor":"text","default":"ONE SCAR","section":"This day"},"line2":{"editor":"text","default":"3 WORDS","section":"This day"},"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+renderVals() {
+return {
+day: this.props.day ?? 12,
+line1: this.props.line1 ?? 'ONE SCAR',
+line2: this.props.line2 ?? '3 WORDS'
+};
+}
+}
+</script>
+</body>
+</html>
