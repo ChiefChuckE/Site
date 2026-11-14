@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Different Fire, Same Fight with Chief Chuck</title>
+<meta name="description" content="A CAL FIRE Deputy Fire Chief, a brain injury and PTSD survivor himself, sits down with fellow survivors and the people who love them: true stories, poetry, and proof you're not alone.">
+<meta property="og:title" content="Different Fire, Same Fight with Chief Chuck">
+<meta property="og:description" content="True stories, poetry, and proof you're not alone.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: quiet talk-show page. Wordmark nav, split hero (title + trailer), then ruled sections. One ember accent. */
+:root{
+  --bg:#F6F7F7; --surface:#FFFFFF; --ink:#16191C; --muted:#5A6168; --line:#DADFE2;
+  --ember:#C8401E; --ember-ink:#FFFFFF; --gold:#A97B1F;
+  --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --body:"Manrope","Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121416; --surface:#1B1E21; --ink:#F0F2F3; --muted:#A3ABB1; --line:#2E3338;
+  --ember:#EE6A44; --ember-ink:#14110F; --gold:#D9A93F; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121416; --surface:#1B1E21; --ink:#F0F2F3; --muted:#A3ABB1; --line:#2E3338;
+  --ember:#EE6A44; --ember-ink:#14110F; --gold:#D9A93F; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:22px}
+.mark{font:800 15px/1.1 var(--display);letter-spacing:.14em;text-transform:uppercase;text-decoration:none}
+.mark span{color:var(--ember)}
+nav{display:flex;gap:22px;flex-wrap:wrap;font-weight:600;font-size:15px}
+nav a{text-decoration:none;color:var(--muted)}
+nav a:hover,nav a:focus-visible{color:var(--ink)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--ember);outline-offset:3px;border-radius:4px}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:48px;align-items:center;padding-block:56px 72px}
+.eyebrow{font:700 13px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--ember);margin:0 0 18px}
+h1{font:800 clamp(2.5rem,6vw,4.4rem)/1.02 var(--display);letter-spacing:-.02em;margin:0 0 20px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--ember)}
+.lede{font-size:19px;color:var(--muted);max-width:34em;margin:0 0 28px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:14px 22px;border-radius:6px;font-weight:700;font-size:16px;text-decoration:none;border:2px solid var(--ink)}
+.btn.primary{background:var(--ember);border-color:var(--ember);color:var(--ember-ink)}
+.btn.ghost{color:var(--ink)}
+.btn:hover{filter:brightness(1.06)}
+.video{position:relative;aspect-ratio:16/9;background:#000;border-radius:8px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.22)}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-note{font-size:14px;color:var(--muted);margin:12px 0 0}
+section{border-top:1px solid var(--line);padding-block:64px}
+h2{font:800 clamp(1.8rem,3.6vw,2.5rem)/1.1 var(--display);letter-spacing:-.015em;margin:0 0 12px;text-wrap:balance}
+.sub{color:var(--muted);max-width:40em;margin:0 0 32px}
+.eps{display:grid;gap:16px}
+.ep{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:20px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:22px 24px}
+.ep .no{font:800 13px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);min-width:5.5em}
+.ep h3{font:700 20px/1.25 var(--display);margin:0 0 4px}
+.ep p{margin:0;color:var(--muted);font-size:15.5px}
+.pill{font:700 12px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;padding:8px 12px;border-radius:99px;border:1.5px solid var(--line);color:var(--muted);white-space:nowrap}
+.pill.live{border-color:var(--ember);color:var(--ember)}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:28px}
+.card h3{font:700 20px/1.25 var(--display);margin:0 0 8px}
+.card p{margin:0 0 14px;color:var(--muted)}
+.mail{font-weight:700;word-break:break-word}
+.about p{max-width:44em;margin:0 0 16px}
+.badge{display:inline-block;font:700 12px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border:1.5px solid var(--gold);padding:7px 10px;border-radius:99px;margin-bottom:14px}
+.help{background:var(--surface);border-left:4px solid var(--ember);padding:16px 20px;border-radius:0 8px 8px 0;margin-top:28px;max-width:44em}
+footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--muted);font-size:15px;display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between}
+footer a{color:var(--ink);font-weight:600}
+@media (max-width:820px){
+  .hero{grid-template-columns:minmax(0,1fr);gap:32px;padding-block:32px 48px}
+  .cols{grid-template-columns:minmax(0,1fr);gap:20px}
+  .ep{grid-template-columns:minmax(0,1fr);gap:10px}
+  section{padding-block:48px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="mark" href="#top">Different Fire <span>/</span> Same Fight</a>
+    <nav aria-label="Main">
+      <a href="#episodes">Episodes</a>
+      <a href="#guest">Be a guest</a>
+      <a href="#about">About</a>
+      <a href="#speaking">Speaking &amp; press</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <div class="hero">
+      <div>
+        <p class="eyebrow">A podcast for survivors and the people who love them</p>
+        <h1>Different Fire, <em>Same Fight</em></h1>
+        <p class="lede">A CAL FIRE Deputy Fire Chief, a brain injury and PTSD survivor himself, sits down with fellow survivors and the people who love them: true stories, poetry, and proof you&rsquo;re not alone.</p>
+        <div class="btns">
+          <a class="btn primary" href="#episodes">Listen to Episode 1</a>
+          <a class="btn ghost" href="#guest">Share your story</a>
+        </div>
+      </div>
+      <div>
+        <div class="video">
+          <iframe src="https://www.youtube-nocookie.com/embed/NzURmn6ywjI" title="Coming Soon: Different Fire, Same Fight, trailer" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <p class="video-note">The trailer. Season 1 schedule coming soon.</p>
+      </div>
+    </div>
+
+    <section id="episodes" aria-labelledby="eps-h">
+      <h2 id="eps-h">Episodes</h2>
+      <p class="sub">New episodes come out weekly. The Season 1 schedule is coming soon.</p>
+      <div class="eps">
+        <article class="ep">
+          <div class="no">Episode 1</div>
+          <div>
+            <h3>My Brain Failed Me: A CAL FIRE Deputy Chief&rsquo;s Fight to Return</h3>
+            <p>Chief Chuck tells it straight: the hard parts, and what got him through.</p>
+          </div>
+          <a class="btn primary" href="https://podcasts.apple.com/us/podcast/my-brain-failed-me-a-cal-fire-deputy-chiefs-fight-to-return/id6799461351?i=1000798510306" rel="noopener">Listen on Apple Podcasts</a>
+        </article>
+        <article class="ep">
+          <div class="no">Coming soon</div>
+          <div>
+            <h3>A conversation with Michael Woodring</h3>
+            <p>A real talk about what drinking and driving can do, and why Michael keeps fighting for survivors.</p>
+          </div>
+          <span class="pill">Coming soon</span>
+        </article>
+      </div>
+    </section>
+
+    <section id="guest" aria-labelledby="guest-h">
+      <h2 id="guest-h">Your story belongs here</h2>
+      <p class="sub">You don&rsquo;t have to be a writer or a speaker. You just have to have lived it. Brain injury survivors, caregivers and first responders are all welcome.</p>
+      <div class="cols">
+        <div class="card">
+          <h3>Be a guest on the show</h3>
+          <p>Tell us a little about you and what you&rsquo;d like to talk about, and Chief Chuck will reply.</p>
+          <a class="mail" href="mailto:Chief@MyUnNormalLife.com?subject=Guest%20for%20Different%20Fire%2C%20Same%20Fight">Chief@MyUnNormalLife.com</a>
+        </div>
+        <div class="card">
+          <h3>Submit your story</h3>
+          <p>Prefer to write it down? Send it in and we&rsquo;ll help get it out there.</p>
+          <a class="mail" href="mailto:submit@myunnormallife.com?subject=My%20story">submit@myunnormallife.com</a>
+        </div>
+      </div>
+      <div class="help"><strong>If you are struggling right now,</strong> call or text <strong>988</strong>. You are not alone.</div>
+    </section>
+
+    <section id="about" class="about" aria-labelledby="about-h">
+      <h2 id="about-h">About Chief Chuck</h2>
+      <p>Chuck Carroll is a CAL FIRE Deputy Fire Chief, and he will always be a firefighter. Then a brain injury changed how he thinks, remembers and speaks. He writes poetry and books for survivors under the My UnNormal Life name, and he hosts this show to sit down with others who are fighting their own fire.</p>
+      <p>His book <strong>Welcome to Your New UnNormal</strong> and printable tools for survivors are available below.</p>
+      <div class="btns">
+        <a class="btn ghost" href="https://a.co/d/07LyTlQl" rel="noopener">The book on Amazon</a>
+        <a class="btn ghost" href="https://www.etsy.com/shop/TheUnNormalShop" rel="noopener">The UnNormal Shop</a>
+        <a class="btn ghost" href="https://myunnormallife.com" rel="noopener">MyUnNormalLife.com</a>
+      </div>
+    </section>
+
+    <section id="speaking" aria-labelledby="sp-h">
+      <h2 id="sp-h">Speaking &amp; press</h2>
+      <p class="sub">Booking Chief Chuck to speak, or covering the show? Reach out and we&rsquo;ll get back to you.</p>
+      <div class="cols">
+        <div class="card">
+          <h3>Speaking</h3>
+          <p>Brain injury awareness, fire service wellness, and telling your story.</p>
+          <a class="mail" href="mailto:Chief@MyUnNormalLife.com?subject=Speaking%20request">Chief@MyUnNormalLife.com</a>
+        </div>
+        <div class="card">
+          <h3>Press and podcast hosts</h3>
+          <p>Interview requests, show details and the trailer are all available.</p>
+          <a class="mail" href="mailto:Chief@MyUnNormalLife.com?subject=Press%20request">Chief@MyUnNormalLife.com</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>&copy; 2026 Different Fire, Same Fight with Chief Chuck</div>
+    <div><a href="https://youtu.be/NzURmn6ywjI" rel="noopener">Watch the trailer</a> &middot; <a href="https://www.etsy.com/shop/TheUnNormalShop" rel="noopener">Shop</a> &middot; <a href="mailto:Chief@MyUnNormalLife.com">Contact</a> &middot; <a href="/privacy/">Privacy policy</a></div>
+  </footer>
+</div>
+</body>
+</html>
