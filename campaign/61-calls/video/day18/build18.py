@@ -9,28 +9,36 @@ F='/usr/share/fonts/opentype/inter/Inter-Black.otf'; EM='/usr/share/fonts/truety
 if not os.path.exists('R.mp4'): run('ffmpeg -v error -y -ss 29.67 -i S.mov -t 1.24 -an -vf "scale=1080:1920,fps=30,reverse" -c:v libx264 -crf 14 R.mp4')
 if not os.path.exists('MR.mp4'): run('ffmpeg -v error -y -i M.mov -t 1.66 -an -vf "scale=1080:1920,fps=30,reverse" -c:v libx264 -crf 14 MR.mp4')
 if not os.path.exists('MR2.mp4'): run('ffmpeg -v error -y -t 1.0 -i M.mov -an -vf "scale=1080:1920,fps=30,reverse,tpad=stop_mode=clone:stop_duration=1.6" -c:v libx264 -crf 14 MR2.mp4')
-SRC={"M2":"MR2.mp4","T":"T1.mov","S":"S.mov","P":"P.mov","G":"G.mov","Z":"Z.mov","I":"I.mov","R":"R.mp4","M":"MR.mp4"}
+if not os.path.exists('H0.mp4'):
+    assert os.path.exists('k0.mp4')
+    run('ffmpeg -v error -y -sseof -0.1 -i k0.mp4 -update 1 -frames:v 1 hl.png'); hl=Image.open('hl.png').convert('RGB'); os.makedirs('nf',exist_ok=True)
+    for q in range(27):
+        z=[1.3,1.8,2.5][q//9]*(1+0.01*(q%9)); w=1080/z; h=1920/z; x=min(max(400-w/2,0),1080-w); y=min(max(640-h*0.42,0),1920-h)
+        hl.crop((int(x),int(y),int(x+w),int(y+h))).resize((1080,1920),Image.LANCZOS).save(f'nf/{q:03d}.png')
+    run('ffmpeg -v error -y -framerate 30 -i nf/%03d.png -c:v libx264 -crf 14 -pix_fmt yuv420p N.mp4')
+    open('h0.txt','w').write("file k0.mp4\nfile N.mp4\n"); run('ffmpeg -v error -y -f concat -i h0.txt -vf fps=30 -c:v libx264 -crf 14 -pix_fmt yuv420p H0.mp4')
+SRC={"H0":"H0.mp4","G2":"G2.mov","M2":"MR2.mp4","T":"T1.mov","S":"S.mov","P":"P.mov","G":"G.mov","Z":"Z.mov","I":"I.mov","R":"R.mp4","M":"MR.mp4"}
 run('ffmpeg -v error -y -i T1.mov -map 0:a:0 -ac 2 -ar 48000 -af "highpass=f=80,loudnorm=I=-16:TP=-2:LRA=11" wT.wav')
-FL="hflip,"; ICE="crop=800:1422:280:150,"; PC="crop=900:1600:90:0,"; MC="crop=960:1706:60:214,"; CW="crop=760:1351:130:120,"
+FL="hflip,"; ICE="crop=800:1422:280:150,"; PC="crop=900:1600:90:0,"; MC="crop=960:1706:60:214,"; CW="crop=760:1351:130:120,"; COLD="colorbalance=bs=0.25:bm=0.2:bh=0.1,"
 # (vsrc, vstart, dur, astart, alen, vf)   audio always from T
-SEG=[("I",10.6,2.3,1.04,2.3,ICE),
+SEG=[("H0",0,3.2,1.04,2.3,""),
 ("T",4.20,2.14,4.20,2.14,FL),
 ("R",0,1.24,6.36,1.24,""),
 ("T",8.26,0.94,8.26,0.94,FL),
 ("T",12.20,0.76,12.20,0.76,FL),("T",13.64,0.94,13.64,0.94,FL),("T",15.02,1.16,15.02,1.16,FL),
 ("S",14.64,1.05,18.20,1.05,""),("S",15.69,1.45,19.45,1.45,""),
 ("P",10.3,0.9,22.60,0.9,PC),("P",26.0,1.4,24.02,1.4,CW),("P",28.5,0.9,29.0,0.9,CW),
-("G",6.9,1.94,26.46,1.94,""),("G",12.1,1.1,29.6,1.1,""),
-("Z",9.6,1.0,32.08,1.0,""),
+("G2",0,1.94,26.46,1.94,""),("G2",1.94,2.0,29.6,2.0,""),
+("Z",9.6,1.0,32.08,1.0,COLD),("Z",4.6,1.1,30.5,1.1,COLD),
 ("T",33.70,1.0,33.70,1.0,FL),
 ("S",12.30,1.1,41.30,1.1,""),
 ("T",45.74,1.88,45.74,1.88,FL),
 ("T",48.14,1.66,48.14,1.66,FL),
 ("T",50.10,1.02,50.10,1.02,FL),
 ("T",53.72,1.7,53.72,1.6,FL),
-("M2",0,2.3,56.5,2.3,MC)]
-iP,iC,iC2,iG,iG2,iZ,iSY,iON,iFINE,iDAY,iMD,iUN,iSM=9,10,11,12,13,14,15,16,17,18,19,20,21
-VOL={11:"volume=0.04,",13:"volume=0.04,",21:"volume=0.04,"}
+("M2",0,2.3,56.5,2.3,MC),("I",13.5,1.7,57.0,1.7,ICE)]
+iP,iC,iC2,iG,iG2,iZ,iZ2,iSY,iON,iFINE,iDAY,iMD,iUN,iSM,iRX=9,10,11,12,13,14,15,16,17,18,19,20,21,22,23
+VOL={11:"volume=0.04,",13:"volume=0.04,",15:"volume=0.04,",22:"volume=0.04,",23:"volume=0.04,"}
 Wd=[(2.14,"Day"),(2.42,"18,"),(2.8,"numb."),(4.28,"The"),(4.44,"job"),(4.72,"taught"),(5.08,"you"),(5.74,"to"),(5.92,"shut"),(6.18,"your"),(6.42,"feelings"),(7.14,"off"),
 (8.34,"so"),(8.46,"you"),(8.56,"could"),(8.78,"work."),(12.26,"Problem"),(12.64,"is,"),(13.7,"there's"),(13.96,"no"),(14.18,"switch"),(15.08,"just"),(15.26,"for"),(15.38,"the"),(15.5,"bad"),(15.82,"ones."),
 (18.28,"Shut"),(18.5,"off"),(18.66,"the"),(18.84,"fear,"),(19.52,"and"),(19.62,"the"),(19.8,"joy"),(20.06,"goes"),(20.36,"with"),(20.58,"it."),
@@ -43,9 +51,6 @@ vl=open('v.txt','w'); al=open('a.txt','w'); t=0; log=[]
 for i,(vs,va,dur,aa,alen,vf) in enumerate(SEG):
     n=round(dur*30); d=n/30; alen=min(alen,d)
     run(f'ffmpeg -v error -y -ss {va:.3f} -i {SRC[vs]} -map 0:v:0 -an -vf "{vf}scale=1080:1920,fps=30,format=yuv420p" -frames:v {n} -c:v libx264 -preset veryfast -crf 16 s{i}.mp4')
-    if i==0:
-        if not os.path.exists('k0.mp4'): run('python3 matte.py s0.mp4 k0.mp4 burst.png')
-        run('cp k0.mp4 s0.mp4')
     vol=VOL.get(i,"")
     run(f'ffmpeg -v error -y -i wT.wav -af "atrim={aa:.4f}:{aa+alen:.4f},asetpts=PTS-STARTPTS,{vol}afade=t=in:d=0.015,afade=t=out:st={alen-0.03:.4f}:d=0.03,apad,atrim=0:{d:.4f}" -c:a pcm_s16le s{i}.wav')
     vl.write(f"file s{i}.mp4\n"); al.write(f"file s{i}.wav\n"); log.append((aa,aa+alen,t,d)); t+=d
@@ -66,6 +71,9 @@ for i,c in enumerate(ch):
     a=c[0][1]; b=ch[i+1][0][1] if i+1<len(ch) else TOT-0.05
     CUES.append((" ".join(w for w,_ in c).upper(),a,min(b,a+2.0)))
 CUES[-1]=(CUES[-1][0],CUES[-1][1],T0(iSM)-0.02)
+for q_,c_ in enumerate(CUES):
+    if c_[0]=='NUMB.': CUES[q_]=(c_[0],c_[1],2.28)
+    if c_[0]=="THAT'S NOT COLD.": CUES[q_]=(c_[0],c_[1],T0(iZ2)-0.02)
 KEYS={"NUMB.","FEELINGS","OFF","SWITCH","FEAR,","JOY","PARTY,","LAUGHING,","GLASS.","COLD.","SYMPTOM.","BACK.","FINE.","MAYDAY.","UNIFORM.","18","18,","BAD","WORK."}
 font=ImageFont.truetype(F,108)
 for i,(txt,a,b) in enumerate(CUES):
@@ -114,6 +122,9 @@ label('l_fj.png',[("FEAR",290,500,96,R,Wt,640),("JOY",690,500,96,Y,K,640)])
 label('l_fj2.png',[("FEAR",290,500,96,G,(150,150,150),640),("JOY",690,500,96,Y,K,640)])
 label('l_fj3.png',[("FEAR",290,500,96,G,(150,150,150),640),("JOY",690,500,96,G,(150,150,150),640)])
 label('l_both.png',[("BOTH OFF.",540,820,130,R,Wt,0)])
+label('l_n1.png',[('ICE.',540,1250,170,Y,K,0)]); label('l_n2.png',[('WATER.',540,1250,170,Y,K,0)]); label('l_n3.png',[('NOTHING.',540,1250,170,R,Wt,0)])
+label('l_still.png',[('STILL NOTHING.',540,330,96,R,Wt,0)]); label('l_feel2.png',[('OK. NOW I FEEL IT.',540,1250,100,Y,K,0)])
+label('l_ha1.png',[('HA!',200,1000,100,(255,255,255,255),K,0)]); label('l_ha2.png',[('HA HA!',800,820,90,(255,255,255,255),K,0)]); label('l_ha3.png',[('HAHA!',330,640,90,(255,255,255,255),K,0)])
 label('l_on.png',[("FEELINGS: ON",540,330,104,Y,K,0)])
 label('l_reen.png',[("ME AT EVERY PARTY",540,300,74,Y,K,0)])
 label('l_glass.png',[("*SQUEAK*",760,520,64,(255,255,255,255),K,0)])
@@ -148,26 +159,26 @@ sr=48000; rng=np.random.default_rng(3)
 tt=np.arange(int(sr*1.4))/sr; nz=rng.standard_normal(len(tt)); k=np.ones(12)/12; nz=np.convolve(nz,k,'same')*3
 wsave('splash.wav',nz*np.minimum(tt/0.05,1)*np.exp(-tt*2.6)*0.8)
 tt=np.arange(int(sr*0.09))/sr; wsave('click.wav',(rng.standard_normal(len(tt))*np.exp(-tt*120)+np.sin(2*np.pi*1800*tt)*np.exp(-tt*90))*0.8)
-tt=np.arange(int(sr*0.9))/sr; fr=1900-900*tt/0.9+120*np.sin(2*np.pi*14*tt); ph=2*np.pi*np.cumsum(fr)/sr
-wsave('squeak.wav',(np.sin(ph)+0.4*np.sin(2*ph))*np.minimum(tt/0.05,1)*np.minimum((0.9-tt)/0.1,1)*0.35)
+tt=np.arange(int(sr*1.8))/sr; fr=1900-900*tt/1.8+120*np.sin(2*np.pi*14*tt); ph=2*np.pi*np.cumsum(fr)/sr
+wsave('squeak.wav',(np.sin(ph)+0.4*np.sin(2*ph))*np.minimum(tt/0.05,1)*np.minimum((1.8-tt)/0.1,1)*0.35)
 tt=np.arange(int(sr*1.2))/sr; wsave('ding.wav',(np.sin(2*np.pi*1318*tt)+0.6*np.sin(2*np.pi*1976*tt)+0.3*np.sin(2*np.pi*2637*tt))*np.exp(-tt*3.5)*0.4)
 tt=np.arange(int(sr*1.3))/sr; lg=np.zeros(len(tt))
 for q in range(7):
     s0=0.05+q*0.17; m=(tt>=s0)&(tt<s0+0.13); u=tt[m]-s0; f0=520-q*18; lg[m]+=(np.sin(2*np.pi*f0*u)+0.5*np.sin(2*np.pi*2*f0*u)+0.3*np.sin(2*np.pi*3*f0*u))*np.sin(np.pi*u/0.13)
 wsave('haha.wav',lg*0.3)
 tt=np.arange(int(sr*0.5))/sr; wsave('powerdown.wav',np.sin(2*np.pi*np.cumsum(420*np.exp(-tt*5))/sr)*np.exp(-tt*4)*0.6)
-stripT=TOT-4.2; HOOK_END=T0(1)
+stripT=T0(iDAY); HOOK_END=T0(1)
 ON=T0(iON)+0.58; SMILE=T0(iSM)+1.0
 BEATS=[ON+k*0.7 for k in range(40) if ON+k*0.7<TOT-0.9]
 banner('tagline.png',[("TAG SOMEONE",(255,255,255)),("WHO WENT NUMB.",(255,214,0))],[0,330,1080,540],70)
-for pct,nm in [(0,'m0'),(25,'m25'),(50,'m50'),(75,'m75'),(100,'m100')]:
+for pct,nm in [(0,'m0'),(25,'m25'),(50,'m50'),(75,'m75'),(100,'m100'),(1000,'m1000')]:
     im=Image.new('RGBA',(1080,1920),(0,0,0,0)); d=ImageDraw.Draw(im)
     d.rounded_rectangle([510,130,1040,242],radius=14,fill=(0,0,0,225),outline=(255,255,255,255),width=4)
     d.text((530,140),"FEELINGS",font=ImageFont.truetype(F,34),fill='white')
     col=(230,20,40) if pct==0 else (60,210,90)
-    t_=f"{pct}%"; fp=ImageFont.truetype(F,52); d.text((1024-d.textlength(t_,font=fp),176),t_,font=fp,fill=col)
+    t_=f"{pct}%"; fp=ImageFont.truetype(F,52 if pct<1000 else 44); d.text((1024-d.textlength(t_,font=fp),176),t_,font=fp,fill=col)
     d.rounded_rectangle([530,190,860,226],radius=10,fill=(60,60,60,255))
-    if pct: d.rounded_rectangle([530,190,530+int(330*pct/100),226],radius=10,fill=col+(255,))
+    if pct: d.rounded_rectangle([530,190,530+int(330*min(pct,100)/100),226],radius=10,fill=col+(255,))
     im.save(nm+'.png')
 # EKG animation
 E0=T0(iP); nfe=int((TOT-E0)*30); os.makedirs('ekf',exist_ok=True); EW,EH=600,100; SP=260.0
@@ -202,6 +213,7 @@ run('ffmpeg -v error -y -framerate 30 -i cff/%04d.png -c:v qtrle confetti.mov')
 tt=np.arange(int(sr*0.75))/sr; f0=330+40*np.minimum(tt/0.1,1); ph=2*np.pi*np.cumsum(f0)/sr
 wsave('horn.wav',(2*((ph/(2*np.pi))%1)-1)*0.5*np.minimum(tt/0.03,1)*np.minimum((0.75-tt)/0.08,1)*0.5)
 fl=max(0.3,ON-T0(iG)); tt=np.arange(int(sr*fl))/sr; wsave('flat.wav',np.sin(2*np.pi*1000*tt)*np.minimum(tt/0.05,1)*np.minimum((fl-tt)/0.02,1)*0.7)
+tt=np.arange(int(sr*1.1))/sr; f0=500+900*np.sin(np.pi*tt/1.1)**0.6+25*np.sin(2*np.pi*9*tt); ph=2*np.pi*np.cumsum(f0)/sr; wsave('yeow.wav',(np.sin(ph)+0.5*np.sin(2*ph)+0.25*np.sin(3*ph))*np.minimum(tt/0.04,1)*np.minimum((1.1-tt)/0.15,1)*0.35)
 tt=np.arange(int(sr*0.1))/sr; wsave('blip.wav',np.sin(2*np.pi*1000*tt)*np.minimum(tt/0.005,1)*np.minimum((0.1-tt)/0.01,1)*0.8)
 OFF1=T0(2)+0.78; OFF2=T0(8)+0.95; FEAR=tl(18.84); FINE=tl(47.10)
 fc=[f"[0:v]drawbox=c=black@0.6:t=fill:enable='between(t,{OFF1:.3f},{T0(3)-0.01:.3f})+between(t,{OFF2:.3f},{T0(9)-0.01:.3f})+between(t,{T0(iON):.3f},{ON-0.01:.3f})'[d0]",
@@ -217,15 +229,18 @@ ov('l_fj.png',T0(7),FEAR-0.01); ov('l_fj2.png',FEAR,OFF2-0.01); ov('l_fj3.png',O
 ov('l_reen.png',T0(9),T0(iG)-0.02); ov('l_glass.png',T0(iG2)+0.1,T0(iZ)-0.05); ov('l_on.png',ON,T0(iFINE)-0.02); ov('l_fine.png',FINE,T0(iDAY)-0.02); ov('tagline.png',T0(iSM),TOT)
 ov('m0.png',0,SMILE-0.01)
 for q,nm in enumerate(['m25','m50','m75']): ov(nm+'.png',SMILE+q*0.07,SMILE+(q+1)*0.07-0.005)
-ov('m100.png',SMILE+0.21,TOT)
+ov('m100.png',SMILE+0.21,T0(iRX)-0.005); ov('m1000.png',T0(iRX),TOT)
+ov('l_n1.png',2.3,2.59); ov('l_n2.png',2.6,2.89); ov('l_n3.png',2.9,3.19)
+ov('l_still.png',T0(iZ2)+0.45,T0(iSY)-0.02); ov('l_feel2.png',T0(iRX)+0.1,TOT)
+for q,nm in enumerate(['l_ha1','l_ha2','l_ha3']): ov(nm+'.png',T0(iC)+0.25+q*0.3,T0(iC2)-0.02)
 extra.append('-i ekg.mov'); fc.append(f"[{idx}:v]setpts=PTS+{T0(iP):.3f}/TB[ek];{cur}[ek]overlay=30:1470:eof_action=pass[vek]"); cur='[vek]'; idx+=1
 extra.append('-i confetti.mov'); fc.append(f"[{idx}:v]setpts=PTS+{T0(iP):.3f}/TB[cf];{cur}[cf]overlay=0:0:eof_action=pass[vcf]"); cur='[vcf]'; idx+=1
-PIPS=[0,2,7,8,9,10,11,12,13,14,16]
-PC_={0:(.65,.52),2:(.60,.50),7:(.55,.45),8:(.50,.42),9:(.40,.45),10:(.50,.48),11:(.60,.40),12:(.55,.42),13:(.60,.40),14:(.72,.55),16:(.80,.72)}
+PIPS=[0,2,7,8,9,10,11,12,13,14,17]
+PC_={0:(.65,.52),2:(.60,.50),7:(.55,.45),8:(.50,.42),9:(.40,.45),10:(.50,.48),11:(.60,.40),12:(.55,.42),13:(.60,.40),14:(.72,.55),17:(.80,.72)}
 mk=Image.new('L',(400,400),0); ImageDraw.Draw(mk).ellipse([0,0,399,399],fill=255); mk.save('mask.png')
 rg=Image.new('RGBA',(424,424),(0,0,0,0)); ImageDraw.Draw(rg).ellipse([2,2,421,421],outline=(255,255,255,255),width=12); rg.save('ring.png')
 for j,si in enumerate(PIPS):
-    aa=SEG[si][3]; d_=log[si][3]; t0=T0(si)
+    aa=SEG[si][3]; d_=min(log[si][3],2.3) if si==0 else log[si][3]; t0=T0(si)
     run(f'ffmpeg -v error -y -ss {aa:.3f} -i T1.mov -an -t {d_:.3f} -vf "hflip,crop=560:560:{min(520,max(0,int(PC_[si][0]*1080-280)))}:{min(1360,max(0,int(PC_[si][1]*1920-300)))},scale=400:400,fps=30,format=yuv420p" -c:v libx264 -crf 16 pipsrc{j}.mp4')
     extra.append(f'-i pipsrc{j}.mp4 -loop 1 -i mask.png -loop 1 -i ring.png')
     fc.append(f"[{idx}:v]format=rgba[pc{j}];[{idx+1}:v]format=gray[mk{j}];[pc{j}][mk{j}]alphamerge=shortest=1,setpts=PTS+{t0:.3f}/TB[pm{j}];{cur}[pm{j}]overlay=650:1460:eof_action=pass[pq{j}];[pq{j}][{idx+2}:v]overlay=638:1448:enable='between(t,{t0:.3f},{t0+d_-0.03:.3f})'[pr{j}]"); cur=f'[pr{j}]'; idx+=3
@@ -237,7 +252,7 @@ for i,(t_,a,b) in enumerate(CUES):
 open('fc.txt','w').write(";".join(fc))
 run(f'ffmpeg -v error -y -i vcat.mp4 -i tag.png -loop 1 -i hook.png '+' '.join(extra)+f' -filter_complex_script fc.txt -map "{cur}" -t {TOT:.3f} -c:v libx264 -crf 17 -preset medium vcap.mp4')
 ev=[("splash",0.5,2),("thump",0.55,-3),("click",OFF1-0.03,4),("powerdown",OFF1,-4),("thump",FEAR,-5),("click",OFF2-0.03,4),("powerdown",OFF2,-4),
-("pop",T0(9)+0.1,-4),("haha",T0(10)+0.1,-9),("haha",T0(10)+0.55,-11),("horn",T0(iC2)+0.05,-6),("thump",T0(iG)+0.05,-3),("squeak",T0(iG2)+0.1,-3),("whoosh",T0(iZ)-0.12,-6),("thump",T0(iZ)+0.05,-5),("flat",T0(iG),-25),
+("pop",T0(9)+0.1,-4),("haha",T0(10)+0.1,-9),("haha",T0(10)+0.55,-11),("horn",T0(iC2)+0.05,-6),("thump",T0(iG)+0.05,-3),("squeak",T0(iG2)+0.1,-3),("whoosh",T0(iZ)-0.12,-6),("thump",T0(iZ)+0.05,-5),("crash",T0(iZ2)+0.45,-8),("thump",T0(iZ2)+0.45,0),("thump",2.3,-1),("thump",2.6,0),("punch",2.9,0),("boing",T0(iRX)+0.15,-2),("boing",T0(iRX)+0.75,-3),("yeow",T0(iRX)+0.05,-5),("flat",T0(iG),-25),
 ("click",ON-0.03,4),("ding",ON,-3),("punch",FINE,-3),("ding",SMILE,-2),("pop",SMILE,-3),("dod_hit",TOT-0.75,6)]+[("pop",p[1],-9) for p in POPS]+[("blip",bt,-15) for bt in BEATS]
 ins=" ".join(f"-i {n}.wav" for n,_,_ in ev); parts=[]; labs=[]
 for j,(n,s0,g) in enumerate(ev):
