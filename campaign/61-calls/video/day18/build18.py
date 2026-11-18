@@ -212,7 +212,7 @@ for q in range(nfc):
 run('ffmpeg -v error -y -framerate 30 -i cff/%04d.png -c:v qtrle confetti.mov')
 tt=np.arange(int(sr*0.75))/sr; f0=330+40*np.minimum(tt/0.1,1); ph=2*np.pi*np.cumsum(f0)/sr
 wsave('horn.wav',(2*((ph/(2*np.pi))%1)-1)*0.5*np.minimum(tt/0.03,1)*np.minimum((0.75-tt)/0.08,1)*0.5)
-fl=max(0.3,ON-T0(iG)); tt=np.arange(int(sr*fl))/sr; wsave('flat.wav',np.sin(2*np.pi*1000*tt)*np.minimum(tt/0.05,1)*np.minimum((fl-tt)/0.02,1)*0.7)
+fl=max(0.3,T0(iSY)-0.5-T0(iG)); tt=np.arange(int(sr*fl))/sr; wsave('flat.wav',np.sin(2*np.pi*1000*tt)*np.minimum(tt/0.05,1)*np.minimum((fl-tt)/0.02,1)*0.7)
 tt=np.arange(int(sr*1.1))/sr; f0=500+900*np.sin(np.pi*tt/1.1)**0.6+25*np.sin(2*np.pi*9*tt); ph=2*np.pi*np.cumsum(f0)/sr; wsave('yeow.wav',(np.sin(ph)+0.5*np.sin(2*ph)+0.25*np.sin(3*ph))*np.minimum(tt/0.04,1)*np.minimum((1.1-tt)/0.15,1)*0.35)
 tt=np.arange(int(sr*0.1))/sr; wsave('blip.wav',np.sin(2*np.pi*1000*tt)*np.minimum(tt/0.005,1)*np.minimum((0.1-tt)/0.01,1)*0.8)
 OFF1=T0(2)+0.78; OFF2=T0(8)+0.95; FEAR=tl(18.84); FINE=tl(47.10)
@@ -257,7 +257,7 @@ ev=[("splash",0.5,2),("thump",0.55,-3),("click",OFF1-0.03,4),("powerdown",OFF1,-
 ins=" ".join(f"-i {n}.wav" for n,_,_ in ev); parts=[]; labs=[]
 for j,(n,s0,g) in enumerate(ev):
     D=max(0,int(s0*1000)); parts.append(f"[{j+1}:a]aresample=48000,aformat=channel_layouts=stereo,adelay={D}|{D},volume={g}dB[e{j}]"); labs.append(f"[e{j}]")
-fa_="; ".join(parts)+f";[0:a]{''.join(labs)}amix=inputs={len(ev)+1}:duration=first:normalize=0[a]"
+fa_="; ".join(parts)+f";[0:a]{''.join(labs)}amix=inputs={len(ev)+1}:duration=first:normalize=0[am];[am]volume='clip(({T0(iSY)-0.5:.3f}-t)/0.03,0,1)+clip((t-{T0(iSY)-0.03:.3f})/0.03,0,1)':eval=frame[a]"
 run(f'ffmpeg -v error -y -i acat.wav {ins} -filter_complex "{fa_}" -map "[a]" amix.wav')
 run('ffmpeg -v error -y -i vcap.mp4 -i amix.wav -map 0:v -map 1:a -c:v copy -c:a pcm_s16le body.mov')
 # finish: two-pass loudnorm
