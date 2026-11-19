@@ -14,6 +14,9 @@ SEG=[("K",6.4,1.7,6.0,1.7,"",1),("T",0.30,1.75,0.30,1.75,FL,1),("C",0.9,2.2,3.50
 ("U",0.8,2.2,34.16,2.2,CO,1),("T",38.26,1.24,38.26,1.24,FL,1),("R",6.5,2.06,40.04,2.06,"",1),("R",8.6,1.1,6.0,1.1,"",1),
 ("T",44.92,2.08,44.92,2.08,FL,1),("T",47.05,1.2,47.05,1.2,FL,1),("T",48.45,2.1,48.45,2.1,FL,1),("R",12.4,2.6,52.9,1.25,"",1)]
 QUIET={0,4,6,7,8,10,16}
+OFF=0.717   # transcript times are raw audio-stream times; T.mov audio is delayed by this much
+RT={0:12.0,4:12.2,6:12.0,7:12.3,8:12.0,10:12.0,16:12.0}
+SEG=[(vs,(va+OFF if vs=="T" else va),dur,(RT[i] if i in QUIET else aa+OFF),alen,vf,vol) for i,(vs,va,dur,aa,alen,vf,vol) in enumerate(SEG)]
 Wd=[(0.48,"We"),(0.56,"don't"),(0.78,"say"),(0.98,"we're"),(1.22,"scared."),(3.68,"We"),(3.84,"just"),(4.1,"sit"),(4.56,"facing"),(4.9,"the"),(5.06,"door."),
 (8.84,"I"),(8.96,"count"),(9.18,"the"),(9.36,"exits"),(9.72,"at"),(9.9,"parties."),(16.84,"I"),(16.98,"watch"),(17.26,"hands"),(17.54,"at"),(17.64,"the"),(17.76,"grocery"),(18.22,"store."),
 (24.42,"The"),(24.6,"toaster"),(24.96,"pops,"),(25.34,"I'm"),(25.48,"ready"),(25.64,"to"),(25.88,"fight."),(27.46,"It's"),(27.54,"not"),(27.72,"a"),(27.9,"quirk."),
@@ -21,6 +24,7 @@ Wd=[(0.48,"We"),(0.56,"don't"),(0.78,"say"),(0.98,"we're"),(1.22,"scared."),(3.6
 (38.44,"You're"),(38.7,"home."),(40.22,"You're"),(40.38,"allowed"),(40.76,"to"),(40.94,"stand"),(41.32,"down."),(45.08,"This"),(45.24,"is"),(45.36,"day"),(45.56,"19"),(45.96,"of"),(46.24,"61."),
 (47.18,"Call"),(47.44,"your"),(47.64,"mayday."),(48.52,"Send"),(48.7,"this"),(48.86,"to"),(49.04,"someone"),(49.32,"who"),(49.42,"wore"),(49.6,"the"),(49.7,"uniform."),
 (53.0,"I'm"),(53.06,"ready"),(53.22,"to"),(53.48,"fight!")]
+Wd=[(t_+OFF,w_) for t_,w_ in Wd]
 vl=open('v.txt','w'); al=open('a.txt','w'); t=0; log=[]
 for i,(vs,va,dur,aa,alen,vf,vol) in enumerate(SEG):
     n=round(dur*30); d=n/30; alen=min(alen,d)
@@ -92,7 +96,7 @@ def emoji(ch_,name):
     f=ImageFont.truetype(EM,109); im=Image.new('RGBA',(160,160),(0,0,0,0)); ImageDraw.Draw(im).text((12,16),ch_,font=f,embedded_color=True)
     a=im.split()[3]; out=Image.new('RGBA',(160,160),(0,0,0,0)); out.paste((255,255,255,255),(0,0),a.filter(ImageFilter.MaxFilter(9))); out.paste(im,(0,0),im); out.resize((380,380),Image.LANCZOS).save(f'e_{name}.png')
 for c_,nm in [("\U0001F35E","bread"),("\U0001F6AA","door"),("\U0001F440","eyes"),("\U0001F6D2","cart"),("\U0001F512","lock"),("\U0001F60C","relief")]: emoji(c_,nm)
-POPS=[("bread",0.25,60,560,1.2),("door",tl(5.06),60,520,0.8),("eyes",tl(17.26),60,520,0.9),("cart",tl(17.76),640,560,0.8),("lock",T0(6)+0.1,60,560,0.9),("bread",tl(24.6),640,520,0.9),("relief",T0(16)+0.2,60,560,0.8)]
+POPS=[("bread",0.25,60,560,1.2),("door",tl(5.06+OFF),60,520,0.8),("eyes",tl(17.26+OFF),60,520,0.9),("cart",tl(17.76+OFF),640,560,0.8),("lock",T0(6)+0.1,60,560,0.9),("bread",tl(24.6+OFF),640,520,0.9),("relief",T0(16)+0.2,60,560,0.8)]
 for j,(name,st0,x,y,dur) in enumerate(POPS):
     nf=int(dur*30); src=Image.open(f'e_{name}.png'); os.makedirs(f'pf{j}',exist_ok=True)
     for q in range(nf):
