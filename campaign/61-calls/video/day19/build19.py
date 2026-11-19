@@ -8,11 +8,12 @@ SRC={"T":"T.mov","K":"c16.mov","C":"c14.mov","N":"c13.mov","L":"c12.mov","U":"c1
 run('ffmpeg -v error -y -i T.mov -map 0:a:0 -ac 2 -ar 48000 -af "highpass=f=80,loudnorm=I=-16:TP=-2:LRA=11" wT.wav')
 FL="hflip,"; CH="crop=720:1280:0:600,"; LK="crop=810:1440:135:300,"; CO="crop=600:1067:240:700,"
 Q=0.04
-SEG=[("K",6.4,1.7,56.5,1.7,"",Q),("T",0.40,1.45,0.40,1.45,FL,1),("C",1.0,1.9,3.60,1.9,CH,1),("N",0,1.72,8.76,1.72,"",1),("N",2.1,0.8,57,0.8,"",Q),
-("T",16.76,1.94,16.76,1.94,FL,1),("L",3.0,1.2,57.2,1.2,LK,Q),("L",8.8,1.3,57.2,1.3,LK,Q),("L",14.5,0.9,57.2,0.9,"",Q),
-("K",4.5,1.96,24.34,1.96,"",1),("K",7.2,0.8,57,0.8,"",Q),("T",27.38,1.02,27.38,1.02,FL,1),("T",29.90,1.8,29.90,1.8,FL,1),
-("U",0.8,1.84,34.26,1.84,CO,1),("T",38.36,0.9,38.36,0.9,FL,1),("R",6.5,1.72,40.14,1.72,"",1),("R",8.3,1.1,57,1.1,"",Q),
-("T",45.0,1.8,45.0,1.8,FL,1),("T",47.10,0.94,47.10,0.94,FL,1),("T",48.50,1.8,48.50,1.8,FL,1),("R",12.4,2.6,52.95,1.0,"",1)]
+SEG=[("K",6.4,1.7,6.0,1.7,"",1),("T",0.30,1.75,0.30,1.75,FL,1),("C",0.9,2.2,3.50,2.2,CH,1),("N",0,2.02,8.68,2.02,"",1),("N",2.1,0.8,6.2,0.8,"",1),
+("T",16.66,2.3,16.66,2.3,FL,1),("L",3.0,1.2,6.0,1.2,LK,1),("L",8.8,1.3,6.3,1.3,LK,1),("L",14.5,0.9,6.9,0.9,"",1),
+("K",4.4,2.3,24.26,2.3,"",1),("K",7.2,0.8,6.0,0.8,"",1),("T",27.28,1.38,27.28,1.38,FL,1),("T",29.80,2.16,29.80,2.16,FL,1),
+("U",0.8,2.2,34.16,2.2,CO,1),("T",38.26,1.24,38.26,1.24,FL,1),("R",6.5,2.06,40.04,2.06,"",1),("R",8.6,1.1,6.0,1.1,"",1),
+("T",44.92,2.08,44.92,2.08,FL,1),("T",47.05,1.2,47.05,1.2,FL,1),("T",48.45,2.1,48.45,2.1,FL,1),("R",12.4,2.6,52.9,1.25,"",1)]
+QUIET={0,4,6,7,8,10,16}
 Wd=[(0.48,"We"),(0.56,"don't"),(0.78,"say"),(0.98,"we're"),(1.22,"scared."),(3.68,"We"),(3.84,"just"),(4.1,"sit"),(4.56,"facing"),(4.9,"the"),(5.06,"door."),
 (8.84,"I"),(8.96,"count"),(9.18,"the"),(9.36,"exits"),(9.72,"at"),(9.9,"parties."),(16.84,"I"),(16.98,"watch"),(17.26,"hands"),(17.54,"at"),(17.64,"the"),(17.76,"grocery"),(18.22,"store."),
 (24.42,"The"),(24.6,"toaster"),(24.96,"pops,"),(25.34,"I'm"),(25.48,"ready"),(25.64,"to"),(25.88,"fight."),(27.46,"It's"),(27.54,"not"),(27.72,"a"),(27.9,"quirk."),
@@ -24,8 +25,8 @@ vl=open('v.txt','w'); al=open('a.txt','w'); t=0; log=[]
 for i,(vs,va,dur,aa,alen,vf,vol) in enumerate(SEG):
     n=round(dur*30); d=n/30; alen=min(alen,d)
     run(f'ffmpeg -v error -y -ss {va:.3f} -i {SRC[vs]} -map 0:v:0 -an -vf "{vf}scale=1080:1920:flags=lanczos,fps=30,format=yuv420p" -frames:v {n} -c:v libx264 -preset veryfast -crf 16 s{i}.mp4')
-    run(f'ffmpeg -v error -y -i wT.wav -af "atrim={aa:.4f}:{aa+alen:.4f},asetpts=PTS-STARTPTS,volume={vol},afade=t=in:d=0.015,afade=t=out:st={alen-0.03:.4f}:d=0.03,apad,atrim=0:{d:.4f}" -c:a pcm_s16le s{i}.wav')
-    vl.write(f"file s{i}.mp4\n"); al.write(f"file s{i}.wav\n"); log.append((aa,aa+alen,t,d,vol)); t+=d
+    run(f'ffmpeg -v error -y -i wT.wav -af "atrim={aa:.4f}:{aa+alen:.4f},asetpts=PTS-STARTPTS,volume={vol},afade=t=in:d=0.04,afade=t=out:st={alen-0.09:.4f}:d=0.09,apad,atrim=0:{d:.4f}" -c:a pcm_s16le s{i}.wav')
+    vl.write(f"file s{i}.mp4\n"); al.write(f"file s{i}.wav\n"); log.append((aa,aa+alen,t,d,0 if i in QUIET else 1)); t+=d
 vl.close(); al.close(); TOT=t
 run('ffmpeg -v error -y -f concat -i v.txt -c copy vcat.mp4'); run('ffmpeg -v error -y -f concat -i a.txt -c copy acat.wav')
 def tl(s):
