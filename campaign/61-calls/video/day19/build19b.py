@@ -9,13 +9,6 @@ def MB(sz):
 OFF=0.717
 SRC={"T":"T.mov","K":"c16.mov","C":"c14.mov","N":"c13.mov","L":"c12.mov","U":"c15.mov","R":"c17.mov","Z":"FRZ.mp4"}
 if not os.path.exists('wT.wav'): run('ffmpeg -v error -y -i T.mov -map 0:a:0 -ac 2 -ar 48000 -af "highpass=f=80,loudnorm=I=-16:TP=-2:LRA=11" wT.wav')
-# freeze frame of the punch (presentation time 56.9), slow push-in
-if not os.path.exists('FRZ.mp4'):
-    run('ffmpeg -v error -y -ss 56.9 -i T.mov -frames:v 1 -vf "hflip,scale=1080:1920:flags=lanczos" -update 1 frz.png'); im=Image.open('frz.png').convert('RGB'); os.makedirs('zf',exist_ok=True)
-    for q in range(45):
-        z=1.0+0.12*q/45; w=1080/z; h=1920/z; x=(1080-w)/2; y=(1920-h)*0.3
-        im.crop((int(x),int(y),int(x+w),int(y+h))).resize((1080,1920),Image.LANCZOS).save(f'zf/{q:03d}.png')
-    run('ffmpeg -v error -y -framerate 30 -i zf/%03d.png -c:v libx264 -crf 14 -pix_fmt yuv420p FRZ.mp4')
 FL="hflip,"; CH="crop=720:1280:0:600,"; LK="crop=810:1440:135:300,"; CO="crop=600:1067:240:700,"
 # (vsrc, vstart, dur, araw or None, vf, name)   T video start given as RAW (offset added below); araw None = room tone
 S=[("K",4.9,3.2,None,"","hook"),
@@ -25,8 +18,8 @@ S=[("K",4.9,3.2,None,"","hook"),
 ("N",2.1,0.95,None,"","flinch"),
 ("T",16.66,2.5,16.66,FL,""),
 ("L",3.0,1.6,None,LK,"lock1"),("L",8.6,2.0,None,LK,"lock2"),("L",14.6,1.1,None,"","lock3"),("L",23.8,1.6,None,LK,"lock4"),
-("K",5.2,1.35,24.26,"","pops"),
-("T",52.883,1.5,52.883,FL,"punch1"),("T",55.583,0.62,55.583,FL,"punch2"),("Z",0,1.4,None,"","frz"),
+("K",5.45,1.05,24.26,"","pops"),
+("T",52.90,1.08,52.90,FL,"punch1"),("Z",0,1.2,None,"","frz"),
 ("T",27.28,1.5,27.28,FL,""),("T",29.80,2.3,29.80,FL,""),
 ("U",0.8,2.3,34.16,CO,""),
 ("T",38.26,1.4,38.26,FL,""),
@@ -45,9 +38,20 @@ Wd=[(0.48,"We"),(0.56,"don't"),(0.78,"say"),(0.98,"we're"),(1.22,"scared."),(3.6
 vl=open('v.txt','w'); al=open('a.txt','w'); t=0; log=[]
 for i,(vs,va,dur,ar,vf,nm) in enumerate(S):
     n=round(dur*30); d=n/30; vss=va+OFF if vs=="T" else va
+    if vs=="Z":   # freeze on the last frame of the (already cut out) punch shot, snap zoom
+        run(f'ffmpeg -v error -y -sseof -0.05 -i s{i-1}.mp4 -frames:v 1 -update 1 frz.png'); im=Image.open('frz.png').convert('RGB'); os.makedirs('zf',exist_ok=True)
+        for q in range(n):
+            z=(1.0+0.22*min(1,q/4))*(1+0.0012*q); w=1080/z; h=1920/z; x=(1080-w)*0.45; y=(1920-h)*0.42
+            im.crop((int(x),int(y),int(x+w),int(y+h))).resize((1080,1920),Image.LANCZOS).save(f'zf/{q:03d}.png')
+        run('ffmpeg -v error -y -framerate 30 -i zf/%03d.png -c:v libx264 -crf 14 -pix_fmt yuv420p FRZ.mp4')
     run(f'ffmpeg -v error -y -ss {vss:.3f} -i {SRC[vs]} -map 0:v:0 -an -vf "{vf}scale=1080:1920:flags=lanczos,fps=30,format=yuv420p" -frames:v {n} -c:v libx264 -preset veryfast -crf 16 s{i}.mp4')
-    aa=(RTB+0.1*(i%4)) if ar is None else ar+OFF; vol=0.6 if ar is None else 1.0
-    run(f'ffmpeg -v error -y -i wT.wav -af "atrim={aa:.4f}:{aa+d:.4f},asetpts=PTS-STARTPTS,volume={vol},afade=t=in:d=0.04,afade=t=out:st={d-0.09:.4f}:d=0.09,apad,atrim=0:{d:.4f}" -c:a pcm_s16le s{i}.wav')
+    if vs=="T":
+        key=f"mk_{va:.3f}_{n}_{round(t*30)%30}.mp4"
+        if not os.path.exists(key): run(f'python3 matte2.py s{i}.mp4 {key} {round(t*30)}')
+        run(f'cp {key} s{i}.mp4')
+    aa=0 if ar is None else ar+OFF; vol=1.0
+    if ar is None: run(f'ffmpeg -v error -y -f lavfi -i anullsrc=r=48000:cl=stereo -t {d:.4f} -c:a pcm_s16le s{i}.wav')
+    else: run(f'ffmpeg -v error -y -i wT.wav -af "atrim={aa:.4f}:{aa+d:.4f},asetpts=PTS-STARTPTS,volume={vol},afade=t=in:d=0.04,afade=t=out:st={d-0.09:.4f}:d=0.09,apad,atrim=0:{d:.4f}" -c:a pcm_s16le s{i}.wav')
     vl.write(f"file s{i}.mp4\n"); al.write(f"file s{i}.wav\n"); log.append((ar,d,t)); t+=d
 vl.close(); al.close(); TOT=t
 run('ffmpeg -v error -y -f concat -i v.txt -c copy vcat.mp4'); run('ffmpeg -v error -y -f concat -i a.txt -c copy acat.wav')
@@ -115,20 +119,18 @@ f=MB(86)
 for li,t2 in enumerate(["WE DON'T SAY","WE'RE SCARED."]):
     w=d.textlength(t2,font=f); mbtext(hk,(540-w/2,440+li*104),t2,f,key=True,stroke=11)
 hk=hk.rotate(-3,resample=Image.BICUBIC,center=(540,480)); hk.save('hook.png')
-tag=Image.new('RGBA',(1080,1920),(0,0,0,0)); d=ImageDraw.Draw(tag); f1=ImageFont.truetype(F,52); f2=ImageFont.truetype(F,28)
-d.rounded_rectangle([50,130,480,242],radius=14,fill=(200,16,46)); d.text((76,138),"MAYDAY",font=f1,fill='white'); d.text((78,202),"DAY 19 OF 61 · THE SCAN",font=f2,fill='white'); tag.save('tag.png')
-st=Image.new('RGBA',(1080,1920),(0,0,0,0)); d=ImageDraw.Draw(st); d.rectangle([0,1590,1080,1790],fill=(200,16,46,240)); fa=ImageFont.truetype(F,64); fb=ImageFont.truetype(F,34)
-s1="STRUGGLING? CALL OR TEXT 988"; d.text(((1080-d.textlength(s1,font=fa))/2,1612),s1,font=fa,fill='white')
-s2="Veterans: 988, press 1  ·  Responders: Safe Call Now 206-459-3020"; d.text(((1080-d.textlength(s2,font=fb))/2,1712),s2,font=fb,fill='white'); st.save('strip.png')
+tag=Image.new('RGBA',(1080,1920),(0,0,0,0)); d=ImageDraw.Draw(tag); brush(d,[48,128,470,196],seed=3); mbtext(tag,(64,126),"MAYDAY",MB(60),stroke=5,sh=(5,6)); mbtext(tag,(60,204),"DAY 19 OF 61",MB(40),key=True,stroke=7,sh=(5,6)); tag.save('tag.png')
+st=Image.new('RGBA',(1080,1920),(0,0,0,0)); d=ImageDraw.Draw(st); brush(d,[40,1590,1040,1700],seed=5); f=MB(60); s1="STRUGGLING? CALL OR TEXT 988"; mbtext(st,((1080-d.textlength(s1,font=f))/2,1602),s1,f,stroke=5,sh=(5,6))
+f=MB(33); s2="VETERANS: 988, PRESS 1"; mbtext(st,((1080-d.textlength(s2,font=f))/2,1716),s2,f,key=True,stroke=6,sh=(4,5)); s3="RESPONDERS: SAFE CALL NOW 206-459-3020"; mbtext(st,((1080-d.textlength(s3,font=f))/2,1762),s3,f,key=True,stroke=6,sh=(4,5)); st.save('strip.png')
 label('l_pop.png',"*POP!*",760,120,"yel",cx=330,rot=-10)
 label('l_what.png',"WHAT WAS THAT?!",1250,92); label('l_lock1.png',"LOCKED.",1250,130); label('l_lock2.png',"CHECK AGAIN.",1250,104); label('l_lock3.png',"...ARE YOU SURE?",1250,96); label('l_lock4.png',"ONE MORE TIME.",1250,100)
 label('l_frz.png',"READY TO FIGHT!",1330,104); label('l_frz2.png',"VS. A TOASTER",1500,84,"yel")
 label('l_down.png',"STANDING DOWN...",1250,92); label('l_end.png',"TOASTER.",1150,150); label('l_follow.png',"FOLLOW FOR DAY 20",1400,70,"yel",rot=0)
 for pct,nm,col in [(100,'m100',(230,20,40)),(0,'m0',(60,210,90)),(1000,'m1000',(230,20,40))]:
-    im=Image.new('RGBA',(1080,1920),(0,0,0,0)); d=ImageDraw.Draw(im); d.rounded_rectangle([510,130,1040,242],radius=14,fill=(0,0,0,225),outline=(255,255,255,255),width=4)
-    d.text((530,140),"THREAT LEVEL",font=ImageFont.truetype(F,32),fill='white'); t_=f"{pct}%"; fp=ImageFont.truetype(F,52 if pct<1000 else 44); d.text((1024-d.textlength(t_,font=fp),176),t_,font=fp,fill=col)
-    d.rounded_rectangle([530,190,860,226],radius=10,fill=(60,60,60,255))
-    if pct: d.rounded_rectangle([530,190,860,226],radius=10,fill=col+(255,))
+    im=Image.new('RGBA',(1080,1920),(0,0,0,0)); d=ImageDraw.Draw(im); d.rounded_rectangle([520,128,1044,250],radius=16,fill=(0,0,0,230),outline=(255,255,255,255),width=5)
+    mbtext(im,(536,134),"THREAT LEVEL",MB(34),stroke=3,sh=(3,4)); t_=f"{pct}%"; fp=MB(54 if pct<1000 else 46); mbtext(im,(1030-d.textlength(t_,font=fp),182),t_,fp,key=True,stroke=5,sh=(4,5))
+    d.rounded_rectangle([536,196,850,236],radius=10,fill=(70,70,70,255),outline=(0,0,0,255),width=3)
+    if pct: d.rounded_rectangle([536,196,850,236],radius=10,fill=col+(255,),outline=(0,0,0,255),width=3)
     im.save(nm+'.png')
 def emoji(ch_,name,sz=380):
     f=ImageFont.truetype(EM,109); im=Image.new('RGBA',(160,160),(0,0,0,0)); ImageDraw.Draw(im).text((12,16),ch_,font=f,embedded_color=True)
@@ -164,7 +166,7 @@ for s0 in (0.0,0.26,0.52):
 wsave('bell.wav',bell*0.16)
 POPT=1.25; stripT=T0(len(S)-4); HOOK_END=T0(1); DOWN=T0("hold")+0.5; END=T0("end"); FZ=T0("frz"); POP2=tl(24.96)
 sh=f"between(t,{POPT:.2f},{POPT+0.5:.2f})+between(t,{FZ:.2f},{FZ+0.35:.2f})+between(t,{END+0.35:.2f},{END+0.9:.2f})"
-fc=[f"[0:v]scale=1160:2062,crop=1080:1920:'40+if({sh},30*sin(t*95),0)':'71+if({sh},30*cos(t*80),0)'[v1s]","[v1s][1:v]overlay[v3]",f"[v3][2:v]overlay=enable='lt(t,{HOOK_END:.3f})'[v4]",f"[v4]drawbox=x=0:y=0:w='iw*t/{TOT:.3f}':h=14:color=0xFFD600@1:t=fill[v5]"]
+fc=[f"[0:v]scale=1160:2062,crop=1080:1920:'40+if({sh},30*sin(t*95),0)':'71+if({sh},30*cos(t*80),0)'[v1s]","[v1s][1:v]overlay[v3]",f"[v3][2:v]overlay=enable='lt(t,{HOOK_END:.3f})'[v4]",f"[v4]drawbox=c=white@0.85:t=fill:enable='between(t,{FZ:.3f},{FZ+0.07:.3f})',drawbox=x=0:y=0:w='iw*t/{TOT:.3f}':h=14:color=0xFFD600@1:t=fill[v5]"]
 cur='[v5]'; idx=3; extra=[]
 def ov(png,a,b):
     global cur,idx
@@ -178,8 +180,9 @@ PIPS=[i for i,sg in enumerate(S) if sg[0] not in ("T","Z")]
 mk=Image.new('L',(400,400),0); ImageDraw.Draw(mk).ellipse([0,0,399,399],fill=255); mk.save('mask.png')
 rg=Image.new('RGBA',(424,424),(0,0,0,0)); ImageDraw.Draw(rg).ellipse([2,2,421,421],outline=(255,255,255,255),width=12); rg.save('ring.png')
 for j,si in enumerate(PIPS):
-    ar=S[si][3]; d_=log[si][1]; t0=T0(si); aa=(RTB+0.1*(si%4)) if ar is None else ar+OFF
-    run(f'ffmpeg -v error -y -ss {aa:.3f} -i T.mov -an -t {d_:.3f} -vf "hflip,scale=1080:1920:flags=lanczos,crop=560:560:260:200,scale=400:400,fps=30,format=yuv420p" -c:v libx264 -crf 16 pipsrc{j}.mp4')
+    ar=S[si][3]; d_=log[si][1]; t0=T0(si); aa=43.2 if ar is None else ar+OFF
+    lim=f"-t {min(d_,1.3):.3f}" if ar is None else ""; pad=",tpad=stop_mode=clone:stop_duration=5" if ar is None else ""
+    run(f'ffmpeg -v error -y -ss {aa:.3f} {lim} -i T.mov -an -t {d_:.3f} -vf "hflip,scale=1080:1920:flags=lanczos,crop=560:560:260:200,scale=400:400,fps=30,format=yuv420p{pad}" -c:v libx264 -crf 16 pipsrc{j}.mp4')
     extra.append(f'-i pipsrc{j}.mp4 -loop 1 -i mask.png -loop 1 -i ring.png')
     fc.append(f"[{idx}:v]format=rgba[pc{j}];[{idx+1}:v]format=gray[mk{j}];[pc{j}][mk{j}]alphamerge=shortest=1,setpts=PTS+{t0:.3f}/TB[pm{j}];{cur}[pm{j}]overlay=650:1460:eof_action=pass[pq{j}];[pq{j}][{idx+2}:v]overlay=638:1448:enable='between(t,{t0:.3f},{t0+d_-0.03:.3f})'[pr{j}]"); cur=f'[pr{j}]'; idx+=3
 for j,(name,st0,x,y,dur) in enumerate(POPS):
@@ -190,7 +193,7 @@ for i,(t_,a,b) in enumerate(CUES):
 open('fc.txt','w').write(";".join(fc))
 run(f'ffmpeg -v error -y -i vcat.mp4 -i tag.png -loop 1 -i hook.png '+' '.join(extra)+f' -filter_complex_script fc.txt -map "{cur}" -t {TOT:.3f} -c:v libx264 -crf 17 -preset veryfast vcap.mp4')
 ev=[("boing",POPT-0.05,2),("pop",POPT,2),("yeow",POPT+0.75,-4),("thump",POPT+0.8,-3),("thump",T0("flinch")+0.2,0),("click",T0("lock1")+0.5,5),("click",T0("lock2")+0.8,5),("thump",T0("lock3")+0.1,-2),("click",T0("lock4")+0.5,5),
-("boing",POP2-0.05,1),("pop",POP2,1),("whoosh",T0("punch1")+0.7,-4),("punch",T0("punch2")+0.45,0),("bell",FZ,0),
+("boing",POP2-0.05,1),("pop",POP2,1),("whoosh",FZ-0.22,-2),("punch",FZ-0.02,2),("bell",FZ+0.05,0),
 ("powerdown",DOWN,-3),("ding",DOWN+0.3,-4),("boing",END+0.3,1),("pop",END+0.35,1),("yeow",END+1.3,-5),("punch",END+2.2,-2),("dod_hit",TOT-0.75,6)]+[("pop",p[1],-10) for p in POPS]
 ins=" ".join(f"-i {n}.wav" for n,_,_ in ev); parts=[]; labs=[]
 for j,(n,s0,g) in enumerate(ev):
