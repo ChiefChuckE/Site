@@ -7,7 +7,8 @@ FI='/tmp/claude-0/fonts/gf/ofl/montserrat/Montserrat-Italic[wght].ttf'; F='/usr/
 def MB(sz):
     f=ImageFont.truetype(FI,sz); f.set_variation_by_name('Black Italic'); return f
 OFF=0.717
-SRC={"T":"T.mov","K":"c16.mov","C":"c14.mov","N":"c13.mov","L":"c12.mov","U":"c15.mov","R":"c17.mov","Z":"FRZ.mp4"}
+SRC={"T":"T.mov","K":"c16.mov","C":"c14.mov","N":"c13.mov","L":"c12.mov","U":"c15.mov","R":"c17.mov","Z":"FRZ.mp4","B":"BOOM.mp4"}
+if not os.path.exists("BOOM.mp4"): run('ffmpeg -v error -y -ss 2.55 -i c13.mov -frames:v 1 -update 1 boomf.png'); run('ffmpeg -v error -y -loop 1 -framerate 30 -i boomf.png -t 2 -vf "scale=1080:1920,format=yuv420p" -c:v libx264 -crf 14 BOOM.mp4')
 if not os.path.exists('wT.wav'): run('ffmpeg -v error -y -i T.mov -map 0:a:0 -ac 2 -ar 48000 -af "highpass=f=80,loudnorm=I=-16:TP=-2:LRA=11" wT.wav')
 FL="hflip,"; CH="crop=720:1280:0:600,"; LK="crop=810:1440:135:300,"; CO="crop=600:1067:240:700,"
 # (vsrc, vstart, dur, araw or None, vf, name)   T video start given as RAW (offset added below); araw None = room tone
@@ -15,7 +16,7 @@ S=[("K",4.9,3.2,None,"","hook"),
 ("T",0.30,1.95,0.30,FL,""),
 ("C",0.9,2.45,3.50,CH,""),
 ("N",0,2.05,8.68,"",""),
-("N",2.1,0.95,None,"","flinch"),
+("N",2.1,0.45,None,"","flinch"),("B",0,1.4,None,"","boom"),
 ("T",16.66,2.5,16.66,FL,""),
 ("L",3.0,1.6,None,LK,"lock1"),("L",8.6,2.0,None,LK,"lock2"),("L",14.6,1.1,None,"","lock3"),("L",23.8,1.6,None,LK,"lock4"),
 ("K",5.45,1.05,24.26,"","pops"),
@@ -28,6 +29,7 @@ S=[("K",4.9,3.2,None,"","hook"),
 ("R",12.2,3.2,None,"","end")]
 IX={nm:i for i,s in enumerate(S) if (nm:=s[5])}
 RTB=12.0
+IXU=[i for i,sg in enumerate(S) if sg[0]=='U'][0]
 Wd=[(0.48,"We"),(0.56,"don't"),(0.78,"say"),(0.98,"we're"),(1.22,"scared."),(3.68,"We"),(3.84,"just"),(4.1,"sit"),(4.56,"facing"),(4.9,"the"),(5.06,"door."),
 (8.84,"I"),(8.96,"count"),(9.18,"the"),(9.36,"exits"),(9.72,"at"),(9.9,"parties."),(16.84,"I"),(16.98,"watch"),(17.26,"hands"),(17.54,"at"),(17.64,"the"),(17.76,"grocery"),(18.22,"store."),
 (24.42,"The"),(24.6,"toaster"),(24.96,"pops,"),(27.46,"It's"),(27.54,"not"),(27.72,"a"),(27.9,"quirk."),
@@ -46,8 +48,9 @@ for i,(vs,va,dur,ar,vf,nm) in enumerate(S):
         run('ffmpeg -v error -y -framerate 30 -i zf/%03d.png -c:v libx264 -crf 14 -pix_fmt yuv420p FRZ.mp4')
     run(f'ffmpeg -v error -y -ss {vss:.3f} -i {SRC[vs]} -map 0:v:0 -an -vf "{vf}scale=1080:1920:flags=lanczos,fps=30,format=yuv420p" -frames:v {n} -c:v libx264 -preset veryfast -crf 16 s{i}.mp4')
     if vs=="T":
-        key=f"mk_{va:.3f}_{n}_{round(t*30)%30}.mp4"
-        if not os.path.exists(key): run(f'python3 matte2.py s{i}.mp4 {key} {round(t*30)}')
+        import glob
+        hit=glob.glob(f"mk_{va:.3f}_{n}_*.mp4"); key=hit[0] if hit else f"mk_{va:.3f}_{n}_0.mp4"
+        if not hit: run(f'python3 matte2.py s{i}.mp4 {key} 0')
         run(f'cp {key} s{i}.mp4')
     aa=0 if ar is None else ar+OFF; vol=1.0
     if ar is None: run(f'ffmpeg -v error -y -f lavfi -i anullsrc=r=48000:cl=stereo -t {d:.4f} -c:a pcm_s16le s{i}.wav')
@@ -123,7 +126,7 @@ tag=Image.new('RGBA',(1080,1920),(0,0,0,0)); d=ImageDraw.Draw(tag); brush(d,[48,
 st=Image.new('RGBA',(1080,1920),(0,0,0,0)); d=ImageDraw.Draw(st); brush(d,[40,1590,1040,1700],seed=5); f=MB(60); s1="STRUGGLING? CALL OR TEXT 988"; mbtext(st,((1080-d.textlength(s1,font=f))/2,1602),s1,f,stroke=5,sh=(5,6))
 f=MB(33); s2="VETERANS: 988, PRESS 1"; mbtext(st,((1080-d.textlength(s2,font=f))/2,1716),s2,f,key=True,stroke=6,sh=(4,5)); s3="RESPONDERS: SAFE CALL NOW 206-459-3020"; mbtext(st,((1080-d.textlength(s3,font=f))/2,1762),s3,f,key=True,stroke=6,sh=(4,5)); st.save('strip.png')
 label('l_pop.png',"*POP!*",760,120,"yel",cx=330,rot=-10)
-label('l_what.png',"WHAT WAS THAT?!",1250,92); label('l_lock1.png',"LOCKED.",1250,130); label('l_lock2.png',"CHECK AGAIN.",1250,104); label('l_lock3.png',"...ARE YOU SURE?",1250,96); label('l_lock4.png',"ONE MORE TIME.",1250,100)
+label('l_what.png',"WHAT WAS THAT?!",1250,92); label('l_boom.png',"BOOM!",1300,170,"yel"); label('l_lock1.png',"LOCKED.",1250,130); label('l_lock2.png',"CHECK AGAIN.",1250,104); label('l_lock3.png',"...ARE YOU SURE?",1250,96); label('l_lock4.png',"ONE MORE TIME.",1250,100)
 label('l_frz.png',"READY TO FIGHT!",1330,104); label('l_frz2.png',"VS. A TOASTER",1500,84,"yel")
 label('l_down.png',"STANDING DOWN...",1250,92); label('l_end.png',"TOASTER.",1150,150); label('l_follow.png',"FOLLOW FOR DAY 20",1400,70,"yel",rot=0)
 for pct,nm,col in [(100,'m100',(230,20,40)),(0,'m0',(60,210,90)),(1000,'m1000',(230,20,40))]:
@@ -164,9 +167,33 @@ for s0 in (0.0,0.26,0.52):
     for fr_,am,dc in [(742,1.0,2.2),(1486,0.7,2.8),(2231,0.5,3.4),(3105,0.35,4.5),(4212,0.2,6)]: bell+=m*am*np.sin(2*np.pi*fr_*u)*np.exp(-u*dc)
     bell+=m*0.5*np.random.default_rng(1).standard_normal(len(tt))*np.exp(-u*120)
 wsave('bell.wav',bell*0.16)
-POPT=1.25; stripT=T0(len(S)-4); HOOK_END=T0(1); DOWN=T0("hold")+0.5; END=T0("end"); FZ=T0("frz"); POP2=tl(24.96)
-sh=f"between(t,{POPT:.2f},{POPT+0.5:.2f})+between(t,{FZ:.2f},{FZ+0.35:.2f})+between(t,{END+0.35:.2f},{END+0.9:.2f})"
-fc=[f"[0:v]scale=1160:2062,crop=1080:1920:'40+if({sh},30*sin(t*95),0)':'71+if({sh},30*cos(t*80),0)'[v1s]","[v1s][1:v]overlay[v3]",f"[v3][2:v]overlay=enable='lt(t,{HOOK_END:.3f})'[v4]",f"[v4]drawbox=c=white@0.85:t=fill:enable='between(t,{FZ:.3f},{FZ+0.07:.3f})',drawbox=x=0:y=0:w='iw*t/{TOT:.3f}':h=14:color=0xFFD600@1:t=fill[v5]"]
+emoji("\U0001F4A5","boom",900); bm=Image.open('e_boom.png'); os.makedirs('bf',exist_ok=True); rb=random.Random(4)
+PART=[(rb.uniform(0,6.28),rb.uniform(500,1500),rb.uniform(14,38),[(255,214,0),(255,140,0),(230,40,20),(60,60,60)][k%4]) for k in range(70)]
+for q in range(34):
+    tm=q/30; fr=Image.new('RGBA',(1080,1080),(0,0,0,0)); d=ImageDraw.Draw(fr)
+    rr=60+900*tm; al=int(max(0,170*(1-tm/0.9))); d.ellipse([540-rr,540-rr,540+rr,540+rr],outline=(90,90,90,al),width=int(46*(1-min(1,tm))+4))
+    for an,v,sz_,c in PART:
+        dist=v*tm*(1-0.35*tm); x=540+math.cos(an)*dist; y=540+math.sin(an)*dist+500*tm*tm; a_=int(255*max(0,1-tm/1.05)); d.ellipse([x-sz_,y-sz_,x+sz_,y+sz_],fill=c+(a_,))
+    sc=(0.12+0.95*tm/0.12) if tm<0.12 else (1.0+0.25*math.exp(-(tm-0.12)*5))
+    a_=1.0 if tm<0.7 else max(0,1-(tm-0.7)/0.4); im=bm.resize((max(2,int(900*sc)),max(2,int(900*sc)))).rotate(12*math.sin(tm*20),resample=Image.BICUBIC)
+    if a_<1: im.putalpha(im.split()[3].point(lambda p:int(p*a_)))
+    fr.paste(im,(540-im.width//2,540-im.height//2),im); fr.save(f'bf/{q:03d}.png')
+run('ffmpeg -v error -y -framerate 30 -i bf/%03d.png -c:v qtrle boom.mov')
+rg2=np.random.default_rng(9); tt=np.arange(int(sr*2.0))/sr; lp=np.convolve(rg2.standard_normal(len(tt)),np.ones(60)/60,'same')*8
+bomb=np.sin(2*np.pi*np.cumsum(35+75*np.exp(-tt*5))/sr)*np.exp(-tt*2.2)*1.0+lp*np.exp(-tt*3.2)*0.9+rg2.standard_normal(len(tt))*np.exp(-tt*28)*0.8
+wsave('bomb.wav',np.tanh(bomb*1.6)*0.9)
+tt=np.arange(int(sr*2.5))/sr; fq=260+520*(tt/2.5)**1.6+60*np.sin(2*np.pi*3.1*tt)+25*rg2.standard_normal(len(tt)).cumsum()/200; ph=2*np.pi*np.cumsum(fq)/sr
+grit=np.clip(np.convolve((rg2.random(len(tt))<0.004).astype(float),np.hanning(900),'same'),0,1)
+cr=((2*((ph/(2*np.pi))%1)-1)*0.6+np.sin(3.01*ph)*0.3+np.sin(5.03*ph)*0.2)*(0.35+0.65*grit)*np.minimum(tt/0.08,1)*np.minimum((2.5-tt)/0.05,1)
+ck=np.zeros(len(tt)); k0=int(sr*2.32); u=tt[:len(tt)-k0]; ck[k0:]=(np.sin(2*np.pi*140*u)*np.exp(-u*30)+rg2.standard_normal(len(u))*np.exp(-u*90)*0.7)*1.4
+wsave('creak.wav',np.tanh(cr*1.3)*0.5+ck*0.6)
+tt=np.arange(int(sr*1.3))/sr; fq=190+150*np.exp(-tt*2.2)*np.sin(2*np.pi*11*tt)+260*np.exp(-tt*3); ph=2*np.pi*np.cumsum(fq)/sr
+wsave('spring.wav',(np.sin(ph)+0.5*np.sin(2*ph)+0.3*np.sin(3.02*ph))*np.exp(-tt*2.4)*np.minimum(tt/0.004,1)*0.55)
+tt=np.arange(int(sr*0.25))/sr; n_=rg2.standard_normal(len(tt)); hp=n_-np.convolve(n_,np.ones(12)/12,'same')
+wsave('snap.wav',(hp*np.exp(-tt*160)*1.2+np.sin(2*np.pi*2400*tt)*np.exp(-tt*120)*0.6+np.roll(hp*np.exp(-tt*160),int(sr*0.045))*0.25)*0.8)
+POPT=1.25; BT=T0("boom")+0.3; stripT=T0(len(S)-4); HOOK_END=T0(1); DOWN=T0("hold")+0.5; END=T0("end"); FZ=T0("frz"); POP2=tl(24.96)
+sh=f"between(t,{BT:.2f},{BT+0.6:.2f})+between(t,{POPT:.2f},{POPT+0.5:.2f})+between(t,{FZ:.2f},{FZ+0.35:.2f})+between(t,{END+0.35:.2f},{END+0.9:.2f})"
+fc=[f"[0:v]scale=1160:2062,crop=1080:1920:'40+if({sh},30*sin(t*95),0)':'71+if({sh},30*cos(t*80),0)'[v1s]","[v1s][1:v]overlay[v3]",f"[v3][2:v]overlay=enable='lt(t,{HOOK_END:.3f})'[v4]",f"[v4]drawbox=c=white@0.85:t=fill:enable='between(t,{FZ:.3f},{FZ+0.07:.3f})+between(t,{BT:.3f},{BT+0.08:.3f})',drawbox=x=0:y=0:w='iw*t/{TOT:.3f}':h=14:color=0xFFD600@1:t=fill[v5]"]
 cur='[v5]'; idx=3; extra=[]
 def ov(png,a,b):
     global cur,idx
@@ -174,7 +201,8 @@ def ov(png,a,b):
 for k,(st0,en) in enumerate([(POPT,TE("hook")),(POP2,TE("pops"))]):
     extra.append('-i toast.mov'); fc.append(f"[{idx}:v]trim=0:{en-st0:.3f},setpts=PTS-STARTPTS+{st0:.3f}/TB[ts{k}];{cur}[ts{k}]overlay=20:400:eof_action=pass[tv{k}]"); cur=f'[tv{k}]'; idx+=1
 ov('m100.png',0,DOWN-0.01); ov('m0.png',DOWN,END+0.34); ov('m1000.png',END+0.35,TOT)
-ov('l_pop.png',POPT,POPT+0.9); ov('l_what.png',T0("flinch")+0.1,TE("flinch")-0.02); ov('l_lock1.png',T0("lock1")+0.5,TE("lock1")-0.02); ov('l_lock2.png',T0("lock2")+0.6,TE("lock2")-0.02); ov('l_lock3.png',T0("lock3")+0.1,TE("lock3")-0.02); ov('l_lock4.png',T0("lock4")+0.3,TE("lock4")-0.02)
+ov('l_pop.png',POPT,POPT+0.9); ov('l_what.png',T0("flinch")+0.05,BT-0.02); ov('l_boom.png',BT+0.1,TE("boom")-0.02)
+extra.append('-i boom.mov'); fc.append(f"[{idx}:v]setpts=PTS+{BT:.3f}/TB[bm];{cur}[bm]overlay=340:280:eof_action=pass[vbm]"); cur='[vbm]'; idx+=1; ov('l_lock1.png',T0("lock1")+0.5,TE("lock1")-0.02); ov('l_lock2.png',T0("lock2")+0.6,TE("lock2")-0.02); ov('l_lock3.png',T0("lock3")+0.1,TE("lock3")-0.02); ov('l_lock4.png',T0("lock4")+0.3,TE("lock4")-0.02)
 ov('l_frz.png',FZ+0.05,TE("frz")-0.02); ov('l_frz2.png',FZ+0.45,TE("frz")-0.02); ov('l_down.png',T0("hold")+0.3,TE("hold")-0.02); ov('l_end.png',END+1.3,TOT); ov('l_follow.png',TOT-1.8,TOT)
 PIPS=[i for i,sg in enumerate(S) if sg[0] not in ("T","Z")]
 mk=Image.new('L',(400,400),0); ImageDraw.Draw(mk).ellipse([0,0,399,399],fill=255); mk.save('mask.png')
@@ -192,15 +220,15 @@ for i,(t_,a,b) in enumerate(CUES):
     extra.append(f'-i cap{i}.png'); fc.append(f"{cur}[{idx}:v]overlay=enable='between(t,{a:.3f},{b:.3f})'[x{i}]"); cur=f'[x{i}]'; idx+=1
 open('fc.txt','w').write(";".join(fc))
 run(f'ffmpeg -v error -y -i vcat.mp4 -i tag.png -loop 1 -i hook.png '+' '.join(extra)+f' -filter_complex_script fc.txt -map "{cur}" -t {TOT:.3f} -c:v libx264 -crf 17 -preset veryfast vcap.mp4')
-ev=[("boing",POPT-0.05,2),("pop",POPT,2),("yeow",POPT+0.75,-4),("thump",POPT+0.8,-3),("thump",T0("flinch")+0.2,0),("click",T0("lock1")+0.5,5),("click",T0("lock2")+0.8,5),("thump",T0("lock3")+0.1,-2),("click",T0("lock4")+0.5,5),
-("boing",POP2-0.05,1),("pop",POP2,1),("whoosh",FZ-0.22,-2),("punch",FZ-0.02,2),("bell",FZ+0.05,0),
+ev=[("boing",POPT-0.05,2),("pop",POPT,2),("yeow",POPT+0.75,-4),("thump",POPT+0.8,-3),("thump",T0("flinch")+0.1,0),("bomb",BT,5),("creak",T0("lock3")-0.67,1),("snap",T0(IXU)+1.13,6),("spring",POP2-0.03,7),("click",T0("lock1")+0.5,5),("click",T0("lock2")+0.8,5),("thump",T0("lock3")+0.1,-2),("click",T0("lock4")+0.5,5),
+("pop",POP2,1),("whoosh",FZ-0.22,-2),("punch",FZ-0.02,2),("bell",FZ+0.05,0),
 ("powerdown",DOWN,-3),("ding",DOWN+0.3,-4),("boing",END+0.3,1),("pop",END+0.35,1),("yeow",END+1.3,-5),("punch",END+2.2,-2),("dod_hit",TOT-0.75,6)]+[("pop",p[1],-10) for p in POPS]
 ins=" ".join(f"-i {n}.wav" for n,_,_ in ev); parts=[]; labs=[]
 for j,(n,s0,g) in enumerate(ev):
     D=max(0,int(s0*1000)); parts.append(f"[{j+1}:a]aresample=48000,aformat=channel_layouts=stereo,adelay={D}|{D},volume={g}dB[e{j}]"); labs.append(f"[e{j}]")
 nin=len(ev)+1; mus=""
 if os.path.exists('music.mp3'):
-    ins+=" -i music.mp3"; MG=float(os.environ.get('MG','-17'))
+    ins+=" -i music.mp3"; MG=float(os.environ.get('MG','-23'))
     # music: quieter under talking, a little up on the silent gags
     up="+".join(f"between(t,{T0(i):.2f},{TE(i):.2f})" for i,sg in enumerate(S) if sg[3] is None)
     parts.append(f"[{nin}:a]aresample=48000,aformat=channel_layouts=stereo,loudnorm=I=-16:TP=-2:LRA=9,atrim=0:{TOT:.3f},volume='{10**(MG/20):.4f}*(1+0.9*({up}))':eval=frame,afade=t=in:d=0.3,afade=t=out:st={TOT-1.2:.3f}:d=1.2[mu]"); labs.append("[mu]"); nin+=1
