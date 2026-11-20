@@ -29,6 +29,7 @@ S=[("K",4.9,3.2,None,"","hook"),
 ("R",12.2,3.2,None,"","end")]
 IX={nm:i for i,s in enumerate(S) if (nm:=s[5])}
 RTB=12.0
+IXR=[i for i,sg in enumerate(S) if sg[0]=='R'][0]
 IXU=[i for i,sg in enumerate(S) if sg[0]=='U'][0]
 Wd=[(0.48,"We"),(0.56,"don't"),(0.78,"say"),(0.98,"we're"),(1.22,"scared."),(3.68,"We"),(3.84,"just"),(4.1,"sit"),(4.56,"facing"),(4.9,"the"),(5.06,"door."),
 (8.84,"I"),(8.96,"count"),(9.18,"the"),(9.36,"exits"),(9.72,"at"),(9.9,"parties."),(16.84,"I"),(16.98,"watch"),(17.26,"hands"),(17.54,"at"),(17.64,"the"),(17.76,"grocery"),(18.22,"store."),
@@ -150,7 +151,7 @@ for q in range(NT):
         fr.paste(im,(int(bx+115-im.width/2),int(650+y-im.height/2+115)),im)
     fr.save(f'tf/{q:03d}.png')
 run('ffmpeg -v error -y -framerate 30 -i tf/%03d.png -c:v qtrle toast.mov')
-POPS=[("door",tl(5.06),60,520,0.8),("eyes",tl(17.26),60,520,0.9),("cart",tl(17.76),640,560,0.8),("lock",T0("lock1")+0.2,60,560,1.0),("glove",T0("frz"),40,480,1.3),("bell",T0("frz")+0.1,660,470,1.2),("relief",T0("hold")+0.4,60,560,1.0)]
+POPS=[("door",tl(5.06),60,520,0.8),("eyes",tl(17.26),60,520,0.9),("cart",tl(17.76),640,560,0.8),("lock",T0("lock1")+0.2,60,560,1.0),("glove",T0("frz"),40,480,1.3),("bell",T0("frz")+0.1,660,470,1.2),("relief",T0("hold")+0.4,620,620,1.0)]
 for j,(name,st0,x,y,dur) in enumerate(POPS):
     nf=int(dur*30); src=Image.open(f'e_{name}.png'); os.makedirs(f'pf{j}',exist_ok=True)
     for q in range(nf):
@@ -191,6 +192,42 @@ tt=np.arange(int(sr*1.3))/sr; fq=190+150*np.exp(-tt*2.2)*np.sin(2*np.pi*11*tt)+2
 wsave('spring.wav',(np.sin(ph)+0.5*np.sin(2*ph)+0.3*np.sin(3.02*ph))*np.exp(-tt*2.4)*np.minimum(tt/0.004,1)*0.55)
 tt=np.arange(int(sr*0.25))/sr; n_=rg2.standard_normal(len(tt)); hp=n_-np.convolve(n_,np.ones(12)/12,'same')
 wsave('snap.wav',(hp*np.exp(-tt*160)*1.2+np.sin(2*np.pi*2400*tt)*np.exp(-tt*120)*0.6+np.roll(hp*np.exp(-tt*160),int(sr*0.045))*0.25)*0.8)
+# --- v7 sounds and the sleeping Zs
+rg3=np.random.default_rng(21)
+def clickat(buf,t0,amp=1.0,f=2600,dec=220):
+    k=int(sr*t0); u=np.arange(min(len(buf)-k,int(sr*0.08)))/sr; buf[k:k+len(u)]+=amp*(rg3.standard_normal(len(u))*np.exp(-u*dec)*0.8+np.sin(2*np.pi*f*u)*np.exp(-u*dec*0.7)*0.6)
+kl=np.zeros(int(sr*2.2)); tt=np.arange(len(kl))/sr
+for t0 in (0.02,0.07,0.13,0.2,0.26): clickat(kl,t0,0.35,5200,300)          # keys jingle
+m=(tt>0.36)&(tt<0.72); kl[m]+=rg3.standard_normal(m.sum())*0.22*np.sin(np.pi*(tt[m]-0.36)/0.36)*(0.5+0.5*np.sign(np.sin(2*np.pi*55*tt[m])))   # key sliding in
+for j in range(9): clickat(kl,0.86+j*0.055,0.5,3100,260)                    # pins as the key turns
+k0=int(sr*1.42); u=tt[:len(tt)-k0]; kl[k0:]+=(np.sin(2*np.pi*120*u)*np.exp(-u*24)*1.3+rg3.standard_normal(len(u))*np.exp(-u*70)*0.8)   # bolt thunk
+clickat(kl,1.42,1.0,1800,150)
+wsave('keylock.wav',np.tanh(kl*1.5)*0.8)
+nk=np.zeros(int(sr*1.1)); tt=np.arange(len(nk))/sr
+for t0,a_ in [(0.0,1.0),(0.07,0.7),(0.15,1.0),(0.21,0.6),(0.3,0.9),(0.36,0.5),(0.47,1.0),(0.52,0.6)]:
+    k=int(sr*t0); u=np.arange(int(sr*0.09))/sr; nk[k:k+len(u)]+=a_*(rg3.standard_normal(len(u))*np.exp(-u*90)*0.9+np.sin(2*np.pi*(330+rg3.uniform(-60,90))*u)*np.exp(-u*60)*0.9+np.sin(2*np.pi*95*u)*np.exp(-u*40)*0.7)
+wsave('neck.wav',np.tanh(nk*1.8)*0.9)
+def snore(L=1.9):
+    tt=np.arange(int(sr*L))/sr; n_=np.convolve(rg3.standard_normal(len(tt)),np.ones(40)/40,'same')*6
+    inh=(tt<1.05); x=np.zeros(len(tt)); rattle=0.5+0.5*np.sign(np.sin(2*np.pi*27*tt))*0.9
+    x[inh]=(n_[inh]*rattle[inh]+0.6*np.sin(2*np.pi*88*tt[inh])*rattle[inh])*np.sin(np.pi*tt[inh]/1.05)**0.7
+    ex=(tt>=1.15)&(tt<L); u=tt[ex]-1.15; x[ex]=(np.sin(2*np.pi*np.cumsum(900-380*u/(L-1.15))/sr)*0.25+rg3.standard_normal(ex.sum())*0.12)*np.sin(np.pi*u/(L-1.15))
+    return np.tanh(x*1.4)*0.8
+wsave('snore.wav',snore())
+zf=MB(150); zr=random.Random(8); ZT0=T0(IXR)+0.3; ZD=TE("hold")-0.05-ZT0; ZN=int(ZD*30); os.makedirs('zz',exist_ok=True)
+ZS=[(k*0.3,zr.uniform(-40,40),zr.uniform(0.8,1.25),zr.uniform(0,6.28)) for k in range(int(ZD/0.3))]
+for q in range(ZN):
+    tm=q/30; fr=Image.new('RGBA',(800,780),(0,0,0,0))
+    for t0,dx_,sc_,ph_ in ZS:
+        u=tm-t0
+        if u<0 or u>1.9: continue
+        k=u/1.9; size=int((50+150*k)*sc_); f_=MB(size); x=300+dx_+230*k+35*math.sin(u*4+ph_); y=690-620*k
+        lay=Image.new('RGBA',(size*2,size*2),(0,0,0,0)); mbtext(lay,(size*0.4,size*0.3),"Z",f_,key=True,stroke=max(4,size//14),sh=(max(3,size//22),max(3,size//18)))
+        lay=lay.rotate(-12+18*math.sin(u*3+ph_),resample=Image.BICUBIC); a_=min(1,u/0.15)*(1 if k<0.75 else max(0,(1-k)/0.25))
+        if a_<1: lay.putalpha(lay.split()[3].point(lambda p:int(p*a_)))
+        fr.paste(lay,(int(x-size),int(y-size)),lay)
+    fr.save(f'zz/{q:04d}.png')
+run('ffmpeg -v error -y -framerate 30 -i zz/%04d.png -c:v qtrle zzz.mov')
 POPT=1.25; BT=T0("boom")+0.3; stripT=T0(len(S)-4); HOOK_END=T0(1); DOWN=T0("hold")+0.5; END=T0("end"); FZ=T0("frz"); POP2=tl(24.96)
 sh=f"between(t,{BT:.2f},{BT+0.6:.2f})+between(t,{POPT:.2f},{POPT+0.5:.2f})+between(t,{FZ:.2f},{FZ+0.35:.2f})+between(t,{END+0.35:.2f},{END+0.9:.2f})"
 fc=[f"[0:v]scale=1160:2062,crop=1080:1920:'40+if({sh},30*sin(t*95),0)':'71+if({sh},30*cos(t*80),0)'[v1s]","[v1s][1:v]overlay[v3]",f"[v3][2:v]overlay=enable='lt(t,{HOOK_END:.3f})'[v4]",f"[v4]drawbox=c=white@0.85:t=fill:enable='between(t,{FZ:.3f},{FZ+0.07:.3f})+between(t,{BT:.3f},{BT+0.08:.3f})',drawbox=x=0:y=0:w='iw*t/{TOT:.3f}':h=14:color=0xFFD600@1:t=fill[v5]"]
@@ -202,6 +239,7 @@ for k,(st0,en) in enumerate([(POPT,TE("hook")),(POP2,TE("pops"))]):
     extra.append('-i toast.mov'); fc.append(f"[{idx}:v]trim=0:{en-st0:.3f},setpts=PTS-STARTPTS+{st0:.3f}/TB[ts{k}];{cur}[ts{k}]overlay=20:400:eof_action=pass[tv{k}]"); cur=f'[tv{k}]'; idx+=1
 ov('m100.png',0,DOWN-0.01); ov('m0.png',DOWN,END+0.34); ov('m1000.png',END+0.35,TOT)
 ov('l_pop.png',POPT,POPT+0.9); ov('l_what.png',T0("flinch")+0.05,BT-0.02); ov('l_boom.png',BT+0.1,TE("boom")-0.02)
+extra.append('-i zzz.mov'); fc.append(f"[{idx}:v]setpts=PTS+{ZT0:.3f}/TB[zz];{cur}[zz]overlay=100:0:eof_action=pass[vzz]"); cur='[vzz]'; idx+=1
 extra.append('-i boom.mov'); fc.append(f"[{idx}:v]setpts=PTS+{BT:.3f}/TB[bm];{cur}[bm]overlay=340:280:eof_action=pass[vbm]"); cur='[vbm]'; idx+=1; ov('l_lock1.png',T0("lock1")+0.5,TE("lock1")-0.02); ov('l_lock2.png',T0("lock2")+0.6,TE("lock2")-0.02); ov('l_lock3.png',T0("lock3")+0.1,TE("lock3")-0.02); ov('l_lock4.png',T0("lock4")+0.3,TE("lock4")-0.02)
 ov('l_frz.png',FZ+0.05,TE("frz")-0.02); ov('l_frz2.png',FZ+0.45,TE("frz")-0.02); ov('l_down.png',T0("hold")+0.3,TE("hold")-0.02); ov('l_end.png',END+1.3,TOT); ov('l_follow.png',TOT-1.8,TOT)
 PIPS=[i for i,sg in enumerate(S) if sg[0] not in ("T","Z")]
@@ -220,7 +258,7 @@ for i,(t_,a,b) in enumerate(CUES):
     extra.append(f'-i cap{i}.png'); fc.append(f"{cur}[{idx}:v]overlay=enable='between(t,{a:.3f},{b:.3f})'[x{i}]"); cur=f'[x{i}]'; idx+=1
 open('fc.txt','w').write(";".join(fc))
 run(f'ffmpeg -v error -y -i vcat.mp4 -i tag.png -loop 1 -i hook.png '+' '.join(extra)+f' -filter_complex_script fc.txt -map "{cur}" -t {TOT:.3f} -c:v libx264 -crf 17 -preset veryfast vcap.mp4')
-ev=[("boing",POPT-0.05,2),("pop",POPT,2),("yeow",POPT+0.75,-4),("thump",POPT+0.8,-3),("thump",T0("flinch")+0.1,0),("bomb",BT,5),("creak",T0("lock3")-0.67,1),("snap",T0(IXU)+1.13,6),("spring",POP2-0.03,7),("click",T0("lock1")+0.5,5),("click",T0("lock2")+0.8,5),("thump",T0("lock3")+0.1,-2),("click",T0("lock4")+0.5,5),
+ev=[("boing",POPT-0.05,2),("pop",POPT,2),("yeow",POPT+0.75,-4),("thump",POPT+0.8,-3),("thump",T0("flinch")+0.1,0),("bomb",BT,5),("keylock",T0("lock3")-0.67,5),("neck",T0(IXU)+1.08,8),("snore",ZT0+0.1,-2),("snore",T0("hold")+0.05,6),("spring",POP2-0.03,7),("click",T0("lock1")+0.5,5),("click",T0("lock2")+0.8,5),("thump",T0("lock3")+0.1,-2),("click",T0("lock4")+0.5,5),
 ("pop",POP2,1),("whoosh",FZ-0.22,-2),("punch",FZ-0.02,2),("bell",FZ+0.05,0),
 ("powerdown",DOWN,-3),("ding",DOWN+0.3,-4),("boing",END+0.3,1),("pop",END+0.35,1),("yeow",END+1.3,-5),("punch",END+2.2,-2),("dod_hit",TOT-0.75,6)]+[("pop",p[1],-10) for p in POPS]
 ins=" ".join(f"-i {n}.wav" for n,_,_ in ev); parts=[]; labs=[]
